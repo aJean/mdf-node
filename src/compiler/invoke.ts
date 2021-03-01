@@ -19,6 +19,7 @@ export const compilerOptions = {
 };
 
 export default function (scriptPath: string) {
+  // 添加 require.extensions['ts'] 方法
   tsnode.register({
     compilerOptions: compilerOptions,
   });
