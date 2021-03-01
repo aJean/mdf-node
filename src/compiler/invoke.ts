@@ -25,6 +25,7 @@ export default function (scriptPath: string) {
   });
 
   process.argv = [process.argv[0], scriptPath];
-
+  
+  // Module._load(process.argv[1])
   Module.runMain();
 }
