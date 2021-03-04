@@ -1,6 +1,6 @@
 import ts from 'typescript';
 import { IApi } from '@mdfjs/types';
-import { globFind } from '@mdfjs/utils';
+import { globFind, genServerPath } from '@mdfjs/utils';
 
 /**
  * @file 构建产物
@@ -12,8 +12,8 @@ export default function (api: IApi) {
     name: 'build',
     async fn() {
       // client build
-      
-      const files = globFind(`${api.cwd}/src/server/**.ts`);
+
+      const files = globFind(`${api.cwd}/${genServerPath(api)}/**.ts`);
 
       const program = ts.createProgram(files, {
         outDir: 'dist/server',
@@ -26,7 +26,7 @@ export default function (api: IApi) {
         forceConsistentCasingInFileNames: true,
         suppressImplicitAnyIndexErrors: true,
         skipLibCheck: true,
-        declaration: false
+        declaration: false,
       });
 
       program.emit();

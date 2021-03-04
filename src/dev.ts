@@ -1,4 +1,5 @@
 import { IApi } from '@mdfjs/types';
+import { genServerPath } from '@mdfjs/utils';
 import NodeRunner from './runner/node';
 import ClientRunner from './runner/client';
 
@@ -18,7 +19,7 @@ export default function (api: IApi) {
       // 启动 server 部分
       if (args.node) {
         runner = new NodeRunner({
-          watchPath: `${api.cwd}/src/server/**.ts`,
+          watchPath: `${api.cwd}/${genServerPath(api)}/**.ts`,
           tsconfigPath: require.resolve('../tsconfig.json'),
           main: 'dist/server/main.js',
         });
