@@ -6,7 +6,11 @@ import { IApi } from '@mdfjs/types';
  */
 
 export default function (api: IApi) {
-  const presets = [require.resolve('@mdfjs/react'), require.resolve('./dev')];
+  const presets = [
+    require.resolve('@mdfjs/react'),
+    require.resolve('./dev'),
+    require.resolve('./build'),
+  ];
 
   return { presets };
 }

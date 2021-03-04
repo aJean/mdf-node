@@ -19,9 +19,8 @@ export default function (api: IApi) {
       // 启动 server 部分
       if (args.node) {
         runner = new NodeRunner({
-          watchPath: `${api.cwd}/${genServerPath(api)}/**.ts`,
+          api,
           tsconfigPath: require.resolve('../tsconfig.json'),
-          main: 'dist/server/main.js',
         });
 
         runner.run();

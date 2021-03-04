@@ -1,29 +1,47 @@
+import { IApi } from '@mdfjs/types';
 import { globFind } from '@mdfjs/utils';
 import { spawn } from 'child_process';
 import killProcess from 'tree-kill';
 import ts from 'typescript';
+import { ITscPaths, genTscPaths } from '../utils';
 
 /**
  * @file node runner
  */
 
 export type NodeRunnerOpts = {
-  watchPath: string;
-  main: string;
+  api: IApi;
   tsconfigPath: string;
 };
 
 export default class NodeRunner {
-  opts: NodeRunnerOpts;
+  tsconfigPath: string;
+  tscPaths: ITscPaths;
 
   constructor(opts: NodeRunnerOpts) {
-    this.opts = opts;
+    this.tsconfigPath = opts.tsconfigPath;
+    this.tscPaths = genTscPaths(opts.api);
   }
 
   run() {
-    const { watchPath, tsconfigPath } = this.opts;
-    const files = globFind(watchPath);
-    const host = ts.createWatchCompilerHost(tsconfigPath, compilerOptions, ts.sys);
+    const { watchFile, outDir } = this.tscPaths;
+    const files = globFind(watchFile);
+    // 覆盖 tsconfig 里面的参数
+    const compilerOptions = {
+      outDir,
+      allowJs: true,
+      noImplicitReturns: true,
+      target: ts.ScriptTarget.ES2017,
+      module: ts.ModuleKind.CommonJS,
+      moduleResolution: ts.ModuleResolutionKind.NodeJs,
+      emitDecoratorMetadata: true,
+      experimentalDecorators: true,
+      forceConsistentCasingInFileNames: true,
+      suppressImplicitAnyIndexErrors: true,
+      skipLibCheck: true,
+      declaration: false,
+    };
+    const host = ts.createWatchCompilerHost(this.tsconfigPath, compilerOptions, ts.sys);
     const onSuccess = this.createOnSuccessHook();
 
     const origCreateProgram = host.createProgram;
@@ -51,6 +69,7 @@ export default class NodeRunner {
       if (text && text.includes && text.includes(noErrors) && onSuccess) {
         onSuccess();
       }
+
       return statusReporter.call(this, diagnostic, ...args);
     };
   }
@@ -79,27 +98,10 @@ export default class NodeRunner {
   }
 
   spawnChildProcess() {
-    const processArgs = [`dist/server/main.js`];
-
+    const processArgs = [this.tscPaths.startFile];
     return spawn('node', processArgs, {
       stdio: 'inherit',
       shell: true,
     });
   }
 }
-
-// 覆盖 tsconfig 里面的参数
-const compilerOptions = {
-  outDir: 'dist/server',
-  allowJs: true,
-  noImplicitReturns: true,
-  target: ts.ScriptTarget.ES2017,
-  module: ts.ModuleKind.CommonJS,
-  moduleResolution: ts.ModuleResolutionKind.NodeJs,
-  emitDecoratorMetadata: true,
-  experimentalDecorators: true,
-  forceConsistentCasingInFileNames: true,
-  suppressImplicitAnyIndexErrors: true,
-  skipLibCheck: true,
-  declaration: false,
-};

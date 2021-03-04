@@ -1,15 +1,17 @@
 /// <reference types="node" />
+import { IApi } from '@mdfjs/types';
 import ts from 'typescript';
+import { ITscPaths } from '../utils';
 /**
  * @file node runner
  */
 export declare type NodeRunnerOpts = {
-    watchPath: string;
-    main: string;
+    api: IApi;
     tsconfigPath: string;
 };
 export default class NodeRunner {
-    opts: NodeRunnerOpts;
+    tsconfigPath: string;
+    tscPaths: ITscPaths;
     constructor(opts: NodeRunnerOpts);
     run(): void;
     /**

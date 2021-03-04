@@ -1,6 +1,7 @@
 import ts from 'typescript';
 import { IApi } from '@mdfjs/types';
-import { globFind, genServerPath } from '@mdfjs/utils';
+import { globFind } from '@mdfjs/utils';
+import { genTscPaths } from './utils';
 
 /**
  * @file 构建产物
@@ -11,12 +12,17 @@ export default function (api: IApi) {
   api.registerCommand({
     name: 'build',
     async fn() {
-      // client build
+      const tscPaths = genTscPaths(api);
+      const rimraf = require('rimraf');
 
-      const files = globFind(`${api.cwd}/${genServerPath(api)}/**.ts`);
+      rimraf.sync(tscPaths.absOutDir);
 
+      // 需要实现 plugin 的 build 来处理 client 部分, 当然也要判断 project
+
+      // server build
+      const files = globFind(tscPaths.watchFile);
       const program = ts.createProgram(files, {
-        outDir: 'dist/server',
+        outDir: tscPaths.outDir,
         allowJs: true,
         noImplicitReturns: true,
         target: ts.ScriptTarget.ES2015,
