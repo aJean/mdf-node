@@ -1,41 +1,55 @@
-import ts from 'typescript';
+import ora from 'ora';
 import { IApi } from '@mdfjs/types';
-import { globFind } from '@mdfjs/utils';
 import { genTscPaths } from './utils';
+import { errorPrint, chalkPrints } from '@mdfjs/utils';
+import ClientBuilder from './builder/client';
+import NodeBuilder from './builder/node';
 
 /**
- * @file 构建产物
- * @todo 需要清除 dist + client build
+ * @file 重写 mdfjs 的 build，构建 node 项目
  */
 
 export default function (api: IApi) {
   api.registerCommand({
     name: 'build',
     async fn() {
+      const { project } = api.getConfig();
       const tscPaths = genTscPaths(api);
-      const rimraf = require('rimraf');
+      // @todo 与 webpack process 冲突
+      const spinner = ora().info('start to build');
 
-      rimraf.sync(tscPaths.absOutDir);
+      // 清空 dist
+      require('rimraf').sync(tscPaths.absOutDir);
 
-      // 需要实现 plugin 的 build 来处理 client 部分, 当然也要判断 project
+      // 混合项目需要先构建 client
+      if (project.type === 'hybrid') {
+        ClientBuilder(api).then(
+          () => {
+            spinner.start('build node files');
+            api.invokePlugin({
+              key: 'processDone',
+              type: api.PluginType.flush,
+            });
 
-      // server build
-      const files = globFind(tscPaths.watchFile);
-      const program = ts.createProgram(files, {
-        outDir: tscPaths.outDir,
-        allowJs: true,
-        noImplicitReturns: true,
-        target: ts.ScriptTarget.ES2015,
-        module: ts.ModuleKind.CommonJS,
-        moduleResolution: ts.ModuleResolutionKind.NodeJs,
-        experimentalDecorators: true,
-        forceConsistentCasingInFileNames: true,
-        suppressImplicitAnyIndexErrors: true,
-        skipLibCheck: true,
-        declaration: false,
-      });
-
-      program.emit();
+            NodeBuilder(api).then((errors) => finish(errors, spinner));
+          },
+          (e: any) => errorPrint(e),
+        );
+      } else {
+        NodeBuilder(api).then((errors) => finish(errors, spinner));
+      }
     },
   });
+}
+
+function finish(errors, spinner) {
+  if (errors) {
+    spinner.color = 'red';
+    spinner.fail('build error');
+
+    chalkPrints([[`error: `, 'red'], errors[0]]);
+  } else {
+    spinner.color = 'yellow';
+    spinner.succeed('build success');
+  }
 }
