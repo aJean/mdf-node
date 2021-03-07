@@ -10,7 +10,7 @@
     "build": "father-build",
     "pub": "yarn publish"
   },
-  "repository": "medgit@git.medlinker.com:libs/mdf-node.git",
+  "repository": "https://github.com/aJean/mdf-node.git",
   "publishConfig": {
     "access": "public"
   },
