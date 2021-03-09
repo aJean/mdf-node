@@ -1,7 +1,7 @@
 import { IApi } from '@mdfjs/types';
-import { genServerPath } from '@mdfjs/utils';
 import NodeRunner from './runner/node';
 import ClientRunner from './runner/client';
+import createMain from './compiler/main';
 
 /**
  * @file 重写 mdfjs 的 dev
@@ -18,6 +18,7 @@ export default function (api: IApi) {
 
       // 启动 server 部分
       if (args.node) {
+        createMain(api);
         runner = new NodeRunner({
           api,
           tsconfigPath: require.resolve('../tsconfig.json'),

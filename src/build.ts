@@ -9,6 +9,7 @@ import NodeBuilder from './builder/node';
  * @file 重写 mdfjs 的 build，构建 node 项目
  */
 
+const rimraf = require('rimraf');
 export default function (api: IApi) {
   api.registerCommand({
     name: 'build',
@@ -19,7 +20,7 @@ export default function (api: IApi) {
       const spinner = ora().info('start to build');
 
       // 清空 dist
-      require('rimraf').sync(tscPaths.absOutDir);
+      rimraf.sync(tscPaths.absOutDir);
 
       // 混合项目需要先构建 client
       if (project.type === 'hybrid') {
@@ -31,25 +32,29 @@ export default function (api: IApi) {
               type: api.PluginType.flush,
             });
 
-            NodeBuilder(api).then((errors) => finish(errors, spinner));
+            NodeBuilder(api).then((errors) => finish(errors));
           },
           (e: any) => errorPrint(e),
         );
       } else {
-        NodeBuilder(api).then((errors) => finish(errors, spinner));
+        NodeBuilder(api).then((errors) => finish(errors));
+      }
+
+      /**
+       * error 要删除 dist 
+       */
+      function finish(errors) {
+        if (errors) {
+          spinner.color = 'red';
+          spinner.fail('build error');
+
+          rimraf.sync(tscPaths.absOutDir);
+          chalkPrints([[`error: `, 'red'], errors[0]]);
+        } else {
+          spinner.color = 'yellow';
+          spinner.succeed('build success');
+        }
       }
     },
   });
-}
-
-function finish(errors, spinner) {
-  if (errors) {
-    spinner.color = 'red';
-    spinner.fail('build error');
-
-    chalkPrints([[`error: `, 'red'], errors[0]]);
-  } else {
-    spinner.color = 'yellow';
-    spinner.succeed('build success');
-  }
 }
