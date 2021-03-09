@@ -1,9 +1,7 @@
 ### mdf-node todos
-- dist clean
+node 工程模块，主要用来处理 node 项目的生成、构建与插件集成
 - updater
-- build
 - middleware with nest
-- gen server entry
 
 #### main.ts
 由框架生成，用于配置化与内部扩展
