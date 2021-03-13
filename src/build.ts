@@ -1,7 +1,6 @@
-import ora from 'ora';
 import { IApi } from '@mdfjs/types';
 import { genTscPaths } from './utils';
-import { errorPrint, chalkPrints } from '@mdfjs/utils';
+import { errorPrint, chalkPrints, Spinner } from '@mdfjs/utils';
 import ClientBuilder from './builder/client';
 import NodeBuilder from './builder/node';
 
@@ -17,7 +16,7 @@ export default function (api: IApi) {
       const { project } = api.getConfig();
       const tscPaths = genTscPaths(api);
       // @todo 与 webpack process 冲突
-      const spinner = ora().info('start to build');
+      const spinner = new Spinner({ text: 'start to build' }).info();
 
       // 清空 dist
       rimraf.sync(tscPaths.absOutDir);
@@ -26,7 +25,7 @@ export default function (api: IApi) {
       if (project.type === 'hybrid') {
         ClientBuilder(api).then(
           () => {
-            spinner.start('build node files');
+            spinner.start({ text: 'build node files' });
             api.invokePlugin({
               key: 'processDone',
               type: api.PluginType.flush,
@@ -41,18 +40,15 @@ export default function (api: IApi) {
       }
 
       /**
-       * error 要删除 dist 
+       * error 要删除 dist
        */
       function finish(errors) {
         if (errors) {
-          spinner.color = 'red';
-          spinner.fail('build error');
-
+          spinner.fail({ text: 'build error' });
           rimraf.sync(tscPaths.absOutDir);
           chalkPrints([[`error: `, 'red'], errors[0]]);
         } else {
-          spinner.color = 'yellow';
-          spinner.succeed('build success');
+          spinner.succeed({ text: 'build success' });
         }
       }
     },

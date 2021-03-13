@@ -1,8 +1,7 @@
 import { IApi } from '@mdfjs/types';
-import ora from 'ora';
 import Bundler from '@mdfjs/bundler-webpack';
 import { DevServer } from '@mdfjs/server';
-import { watch, chalkPrints, genAppPath } from '@mdfjs/utils';
+import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
 import { resolve as resolvePath } from 'path';
 
 /**
@@ -25,18 +24,12 @@ export default class ClientRunner {
   async run() {
     const api = this.api;
     const { paths } = api;
-    const spinner = ora({
-      text: 'generate mdf\n',
-      spinner: 'dots',
-    }).start();
+    const spinner = new Spinner({ text: 'generate mdf', spinner: 'dots' }).start();
 
     api.makeDir(paths.absTmpPath);
     await this.generateCode();
 
-    spinner.text = 'generate success';
-    spinner.color = 'yellow';
-    spinner.succeed();
-
+    spinner.succeed({ text: 'generate success' });
     this.startServer();
   }
 
@@ -100,7 +93,7 @@ export default class ClientRunner {
     const unwatchConfig = watch({
       path: resolvePath('./config'),
       useMemo: true,
-      onChange: function(type, path) {
+      onChange: function (type, path) {
         chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
         chalkPrints([[`restart: `, 'yellow'], ` mdf server`]);
         unwatchs.forEach((unwatch: Function) => unwatch());
@@ -113,7 +106,7 @@ export default class ClientRunner {
     // 变化比较快，没必要提示了
     const unwatchApp = watch({
       path: resolvePath(genAppPath(api)),
-      onChange: () => this.generateCode()
+      onChange: () => this.generateCode(),
     });
 
     unwatchs.push(unwatchConfig, unwatchApp);

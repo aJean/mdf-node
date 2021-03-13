@@ -1403,6 +1403,24 @@
     webpack-dev-middleware "4.0.2"
     webpackbar "5.0.0-3"
 
+"@mdfjs/core@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.1.11.tgz#5fbd367c7e82858ed9e582e34a234bc5f9afe6ba"
+  integrity sha512-k0PdwSWJNuZRrsbL3MYhPEMdjKotjg7FbfMvRBwbgnHuE5VUqfjRyuGonINOYC/RqXkz+AVhkt7ho/5kmN/8hg==
+  dependencies:
+    "@mdfjs/records" "^0.1.11"
+    "@mdfjs/runtime" "^0.1.11"
+    "@mdfjs/utils" "^0.1.11"
+    "@types/mkdirp" "1.0.1"
+    "@types/mustache" "4.0.1"
+    "@types/webpack" "4.41.25"
+    chalk "4.1.0"
+    joi "17.3.0"
+    mkdirp "1.0.4"
+    mustache "4.0.1"
+    reflect-metadata "^0.1.13"
+    webpack-chain "6.5.1"
+
 "@mdfjs/core@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.1.9.tgz#3207488698206775424e2be68db0f9926fb929fb"
@@ -1446,10 +1464,22 @@
     react-router-dom "5.2.0"
     redux-persist "6.0.0"
 
+"@mdfjs/records@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.1.11.tgz#3d01db44d1bc68ddfbbf1c9f76bee63dade5e99c"
+  integrity sha512-Bx0RhXXVhEXYUdUZ/JIrCAyj0xWGqIGF6L/dExYJccYiCxpVt38GuMeR9YUR0wXLPEYWF682Q4QKGZl3rgBQ5Q==
+
 "@mdfjs/records@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.1.9.tgz#ef30e975a6d955c8028d99d9def1234188315217"
   integrity sha512-uu7tbZvncHPawxoshnveZ2qMO5RSR9JmH70jOtHBBPSdxz8GhcQvUCdeBo/Ip5rGUDerOcXJQjrx06Cp4mtl2A==
+
+"@mdfjs/runtime@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/runtime/-/runtime-0.1.11.tgz#ac7d3236ae7b7dcc6f9140a0dce2b0623b34cbf5"
+  integrity sha512-Y1v7ZgJDj3jrEj0AfbHrDwcgCvf9iF+7dlRSUaDZoLSAwiS+hVH0/XsTBD/povCgSQvNA3jUlWSCD3BA8IbnnA==
+  dependencies:
+    "@mdfjs/records" "^0.1.11"
 
 "@mdfjs/runtime@^0.1.9":
   version "0.1.9"
@@ -1458,18 +1488,26 @@
   dependencies:
     "@mdfjs/records" "^0.1.9"
 
-"@mdfjs/server@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@mdfjs/server/-/server-0.1.9.tgz#4bbc92ed069c6c9ea967b66e289d1966588d897c"
-  integrity sha512-RMD/ByCjHTJ/tILJY3n1gzdvj3/g70XOfngKE8grZz3p/4GPdfFAxhpS/k46bYWySXPvht3nOrSHhE45d8hOTA==
+"@mdfjs/server@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/server/-/server-0.1.11.tgz#2f223b4c85083f79db4c44433bdfec9bcc02cadc"
+  integrity sha512-lHRy0+GSMT/Ny1353y0TJyEft2Xu9UquHXeI4cakUnoWTd8/uslKLhPqjJ8al67bWJfbZQzIyl9Sbruth1NuiQ==
   dependencies:
-    "@mdfjs/records" "^0.1.9"
+    "@mdfjs/records" "^0.1.11"
     "@types/express" "4.17.9"
     "@types/webpack" "4.41.25"
     "@types/webpack-dev-server" "3.11.1"
     express "4.17.1"
     http-proxy-middleware "1.0.6"
     webpack-dev-server "3.11.0"
+
+"@mdfjs/types@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/types/-/types-0.1.11.tgz#ad92ef379bb1dbe188d5c9f61dc9aeb113349c57"
+  integrity sha512-/w7Xy7M7UeUoZX5hTLEkRQK7x1vP2zGNaIJU1GGlKr5nfGjMe5z/CYVsaGJ+tVIxKF+qzWgh+3FQbw/sA1lnhA==
+  dependencies:
+    "@mdfjs/core" "^0.1.11"
+    "@mdfjs/records" "^0.1.11"
 
 "@mdfjs/types@^0.1.9":
   version "0.1.9"
@@ -1478,6 +1516,23 @@
   dependencies:
     "@mdfjs/core" "^0.1.9"
     "@mdfjs/records" "^0.1.9"
+
+"@mdfjs/utils@^0.1.11":
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/@mdfjs/utils/-/utils-0.1.11.tgz#c19eb9d336e5e6e57ae38f9e2ee9947f6efe0015"
+  integrity sha512-eHuLRQnQP2MPUGps/DNvRM0RkkYToD0i1+YIMSQQQ2jEv7p6dFUQryqwoJubYFq3MiVxNT4q1+Ie+pVJEdRVgA==
+  dependencies:
+    "@babel/core" "7.12.3"
+    "@babel/preset-env" "7.12.1"
+    "@babel/preset-typescript" "7.12.1"
+    "@babel/register" "7.12.1"
+    "@mdfjs/records" "^0.1.11"
+    babel-plugin-module-resolver "4.0.0"
+    chalk "4.1.0"
+    chokidar "3.4.3"
+    glob "7.1.6"
+    ora "5.3.0"
+    prettier "2.1.2"
 
 "@mdfjs/utils@^0.1.9":
   version "0.1.9"
@@ -1914,15 +1969,13 @@
   integrity sha512-giAlZwstKbmvMk1OO7WXSj4OZ0keXAcl2TQq4LWHiiPH2ByaH7WeUzng+Qej8UPxxv+8lRTuouo0iaNDBuzIBA==
 
 "@types/http-proxy-middleware@*":
-  version "0.19.3"
-  resolved "https://registry.yarnpkg.com/@types/http-proxy-middleware/-/http-proxy-middleware-0.19.3.tgz#b2eb96fbc0f9ac7250b5d9c4c53aade049497d03"
-  integrity sha512-lnBTx6HCOUeIJMLbI/LaL5EmdKLhczJY5oeXZpX/cXE4rRqb3RmV7VcMpiEfYkmTjipv3h7IAyIINe4plEv7cA==
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/http-proxy-middleware/-/http-proxy-middleware-1.0.0.tgz#4370a52766782e9c4f0be2ef79c3dd47aef5f428"
+  integrity sha512-/s8lFX6rT43hSPqjjD8KNuu0SkPKY7uIdR6u9DCxVqCRhAvfKxGbVOixJsAT2mdpSnCyrGFAGoB39KFh6tmRxw==
   dependencies:
-    "@types/connect" "*"
-    "@types/http-proxy" "*"
-    "@types/node" "*"
+    http-proxy-middleware "*"
 
-"@types/http-proxy@*", "@types/http-proxy@^1.17.4":
+"@types/http-proxy@^1.17.4":
   version "1.17.5"
   resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.5.tgz#c203c5e6e9dc6820d27a40eb1e511c70a220423d"
   integrity sha512-GNkDE7bTv6Sf8JbV2GksknKOsk7OznNYHSdrtvPJXO0qJ9odZig6IZKUi5RFGi6d1bf6dgIAe4uXi3DBc7069Q==
@@ -2008,9 +2061,9 @@
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
 "@types/qs@*":
-  version "6.9.5"
-  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
-  integrity sha512-/JHkVHtx/REVG0VVToGRGH2+23hsYLHdyG+GrvoUGlGAd0ErauXDyvHtRI/7H7mzLm+tBCKA7pfcpkQ1lf58iQ==
+  version "6.9.6"
+  resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.6.tgz#df9c3c8b31a247ec315e6996566be3171df4b3b1"
+  integrity sha512-0/HnwIfW4ki2D8L8c9GVcG5I72s9jP5GSLVF0VIXDW00kmIpA6O33G7a8n59Tmh7Nz0WUC3rSb7PTY/sdW2JzA==
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -6039,17 +6092,7 @@ http-parser-js@>=0.5.1:
   resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.3.tgz#01d2709c79d41698bb01d4decc5e9da4e4a033d9"
   integrity sha512-t7hjvef/5HEK7RWTdUzVUhl8zkEu+LlaE0IYzdMuvbSDipxBRpOn4Uhw8ZyECEa808iVT8XCjzo6xmYt4CiLZg==
 
-http-proxy-middleware@0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz#183c7dc4aa1479150306498c210cdaf96080a43a"
-  integrity sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q==
-  dependencies:
-    http-proxy "^1.17.0"
-    is-glob "^4.0.0"
-    lodash "^4.17.11"
-    micromatch "^3.1.10"
-
-http-proxy-middleware@1.0.6:
+http-proxy-middleware@*, http-proxy-middleware@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-1.0.6.tgz#0618557722f450375d3796d701a8ac5407b3b94e"
   integrity sha512-NyL6ZB6cVni7pl+/IT2W0ni5ME00xR0sN27AQZZrpKn1b+qRh+mLbBxIq9Cq1oGfmTc7BUq4HB77mxwCaxAYNg==
@@ -6059,6 +6102,16 @@ http-proxy-middleware@1.0.6:
     is-glob "^4.0.1"
     lodash "^4.17.20"
     micromatch "^4.0.2"
+
+http-proxy-middleware@0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz#183c7dc4aa1479150306498c210cdaf96080a43a"
+  integrity sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q==
+  dependencies:
+    http-proxy "^1.17.0"
+    is-glob "^4.0.0"
+    lodash "^4.17.11"
+    micromatch "^3.1.10"
 
 http-proxy@^1.17.0, http-proxy@^1.18.1:
   version "1.18.1"
