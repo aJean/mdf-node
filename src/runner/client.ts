@@ -24,7 +24,7 @@ export default class ClientRunner {
   async run() {
     const api = this.api;
     const { paths } = api;
-    const spinner = new Spinner({ text: 'generate mdf', spinner: 'dots' }).start();
+    const spinner = new Spinner({ text: 'generate mdf', graph: 'dots' }).start();
 
     api.makeDir(paths.absTmpPath);
     await this.generateCode();

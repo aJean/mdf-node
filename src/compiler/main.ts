@@ -9,10 +9,14 @@ import { genTscPaths } from '../utils';
 
 export default function (api: IApi) {
   const { paths, Mustache } = api;
-  const { project } = api.getConfig();
+  const { project, envs } = api.getConfig();
   const { mainFile } = genTscPaths(api);
   const mainTpl = api.getFile(join(__dirname, './main.tpl'));
-  const mainContent = Mustache.render(mainTpl, { port: project.port || 3001 });
+  // 生成 main.ts 内容
+  const mainContent = Mustache.render(mainTpl, {
+    port: project.port || 3001,
+    envs,
+  });
 
   api.writeFile(`${paths.absSrcPath}/${mainFile}`, prettierFormat(mainContent));
 }

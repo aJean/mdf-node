@@ -34,3 +34,22 @@ export function genTscPaths(api: any): ITscPaths {
       return paths;
   }
 }
+
+/**
+ * 安全获取对象属性，找不到就返回 undefined
+ */
+export function safeGetProperty(path, target) {
+  const tokens = path.split('.');
+  let result = target;
+
+  while(tokens.length) {
+    const token = tokens.shift();
+    if (result[token]) {
+      result = result[token];
+    } else {
+      return undefined;
+    }
+  }
+
+  return result;
+}
