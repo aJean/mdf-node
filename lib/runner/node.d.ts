@@ -12,6 +12,7 @@ export declare type NodeRunnerOpts = {
 export default class NodeRunner {
     tsconfigPath: string;
     tscPaths: ITscPaths;
+    api: IApi;
     constructor(opts: NodeRunnerOpts);
     run(): void;
     /**

@@ -1,5 +1,5 @@
 import { IApi } from '@mdfjs/types';
-import { globFind } from '@mdfjs/utils';
+import { watch, globFind, chalkPrints } from '@mdfjs/utils';
 import { spawn } from 'child_process';
 import killProcess from 'tree-kill';
 import ts from 'typescript';
@@ -17,10 +17,12 @@ export type NodeRunnerOpts = {
 export default class NodeRunner {
   tsconfigPath: string;
   tscPaths: ITscPaths;
+  api: IApi;
 
   constructor(opts: NodeRunnerOpts) {
     this.tsconfigPath = opts.tsconfigPath;
     this.tscPaths = genTscPaths(opts.api);
+    this.api = opts.api;
   }
 
   run() {
@@ -94,6 +96,21 @@ export default class NodeRunner {
         childProcessRef = that.spawnChildProcess();
         childProcessRef.on('exit', () => (childProcessRef = undefined));
       }
+
+      // 监听 config 目录
+      const unwatchConfig = watch({
+        path: `${that.api.cwd}/config`,
+        useMemo: true,
+        onChange: function (type, path) {
+          chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
+          chalkPrints([[`restart: `, 'yellow'], ` mdf server ${childProcessRef.pid}`]);
+          unwatchConfig();
+          killProcess(childProcessRef.pid, () => {
+            // see mdfjs/mdf/cli/fork
+            process.send!({ type: 'RESTART' });
+          });
+        },
+      });
     };
   }
 

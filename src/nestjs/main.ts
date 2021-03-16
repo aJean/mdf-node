@@ -16,6 +16,7 @@ export default function (api: IApi) {
   const mainContent = Mustache.render(mainTpl, {
     port: project.port || 3001,
     envs,
+    formatPath: require.resolve('./formate'),
   });
 
   api.writeFile(`${paths.absSrcPath}/${mainFile}`, prettierFormat(mainContent));

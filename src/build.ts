@@ -3,6 +3,7 @@ import { genTscPaths } from './utils';
 import { errorPrint, chalkPrints, Spinner } from '@mdfjs/utils';
 import ClientBuilder from './builder/client';
 import NodeBuilder from './builder/node';
+import createNestEntry from './nestjs/main';
 
 /**
  * @file 重写 mdfjs 的 build，构建 node 项目
@@ -20,6 +21,8 @@ export default function (api: IApi) {
 
       // 清空 dist
       rimraf.sync(tscPaths.absOutDir);
+      // 创建 node 入口
+      createNestEntry(api);
 
       // 混合项目需要先构建 client
       if (project.type === 'hybrid') {
