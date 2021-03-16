@@ -2,7 +2,6 @@ import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
 import { DevServer } from '@mdfjs/server';
 import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
-import { resolve as resolvePath } from 'path';
 
 /**
  * @file client react runner
@@ -35,7 +34,7 @@ export default class ClientRunner {
 
   startServer() {
     const api = this.api;
-    const { PluginType } = api;
+    const { PluginType, cwd } = api;
     const config = api.getConfig();
 
     // instance
@@ -91,7 +90,7 @@ export default class ClientRunner {
     // important watchs
     const unwatchs: any = [];
     const unwatchConfig = watch({
-      path: resolvePath('./config'),
+      path: `${cwd}/config`,
       useMemo: true,
       onChange: function (type, path) {
         chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
@@ -105,7 +104,7 @@ export default class ClientRunner {
 
     // 变化比较快，没必要提示了
     const unwatchApp = watch({
-      path: resolvePath(genAppPath(api)),
+      path: `${cwd}/${genAppPath(api)}`,
       onChange: () => this.generateCode(),
     });
 

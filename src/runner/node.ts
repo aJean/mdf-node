@@ -97,13 +97,14 @@ export default class NodeRunner {
         childProcessRef.on('exit', () => (childProcessRef = undefined));
       }
 
-      // 监听 config 目录
+      // 监控 config 目录
       const unwatchConfig = watch({
         path: `${that.api.cwd}/config`,
         useMemo: true,
         onChange: function (type, path) {
           chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
-          chalkPrints([[`restart: `, 'yellow'], ` mdf server ${childProcessRef.pid}`]);
+          chalkPrints([[`restart: `, 'yellow'], ` mdf server pid: ${childProcessRef.pid}`]);
+
           unwatchConfig();
           killProcess(childProcessRef.pid, () => {
             // see mdfjs/mdf/cli/fork
