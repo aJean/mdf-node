@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { WinstonModule, utilities } from 'nest-winston';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
@@ -11,7 +12,8 @@ import { genHttpFormat, TIMESTAMP_OPTS } from '{{{ formatPath }}}';
  */
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
     logger: WinstonModule.createLogger({
       transports: [
         new winston.transports.Console({
@@ -19,21 +21,21 @@ async function bootstrap() {
         }),
         new winston.transports.DailyRotateFile({
           datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/info_%DATE%.log',
+          filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.info.log',
           level: 'info',
           maxFiles: '14d',
           format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
         }),
         new winston.transports.DailyRotateFile({
           datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_WARN_PATH }}}/warn_%DATE%.log',
+          filename: '{{{ envs.NODE_LOG_WARN_PATH }}}/%DATE%.warn.log',
           level: 'warn',
           maxFiles: '14d',
           format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
         }),
         new winston.transports.DailyRotateFile({
           datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/error_%DATE%.log',
+          filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%.error.log',
           level: 'error',
           maxFiles: '14d',
           format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
@@ -42,7 +44,7 @@ async function bootstrap() {
     })
   });
 
-  app.enableCors();
+  app.disable('x-powered-by');
   await app.listen({{{ port }}});
 
   console.log('\napp server is listening at localhost:{{{ port }}}');
