@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WinstonModule, utilities } from 'nest-winston';
-import winston from 'winston';
-import 'winston-daily-rotate-file';
 import AppModule from './app.module';
 import { genHttpFormat, TIMESTAMP_OPTS } from '{{{ formatPath }}}';
+import 'winston-daily-rotate-file';
 
 /**
  * @file 框架生产，禁止修改
  * @todo 待处理：中间件、工具库、监控等
  */
 
+const winston = require('winston');
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true,
