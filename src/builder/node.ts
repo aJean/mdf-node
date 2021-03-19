@@ -17,6 +17,7 @@ export default function (api: IApi) {
     target: ts.ScriptTarget.ES2017,
     module: ts.ModuleKind.CommonJS,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
+    emitDecoratorMetadata: true,
     experimentalDecorators: true,
     forceConsistentCasingInFileNames: true,
     suppressImplicitAnyIndexErrors: true,
