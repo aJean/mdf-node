@@ -12,11 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"],
-      "@@/*": [".tmp/*"],
-      "mdf": ["node_modules/mdfjs"]
   },
   "exclude": [
     "node_modules",
