@@ -21,21 +21,14 @@ async function bootstrap() {
         }),
         new winston.transports.DailyRotateFile({
           datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.info.log',
+          filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.log',
           level: 'info',
           maxFiles: '14d',
           format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
         }),
         new winston.transports.DailyRotateFile({
           datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_WARN_PATH }}}/%DATE%.warn.log',
-          level: 'warn',
-          maxFiles: '14d',
-          format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
-        }),
-        new winston.transports.DailyRotateFile({
-          datePattern: 'YYYY-MM-DD-HH',
-          filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%.error.log',
+          filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%_error.log',
           level: 'error',
           maxFiles: '14d',
           format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),

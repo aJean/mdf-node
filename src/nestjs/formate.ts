@@ -9,9 +9,7 @@ export function genHttpFormat(): winston.Logform.Format {
     const { timestamp, level, message, ...args } = debug;
 
     const ts = timestamp.slice(0, 19).replace('T', ' ');
-    return `${ts} [${level}]: ${message} ${
-      Object.keys(args).length ? JSON.stringify(args, null, 2) : ''
-    }`;
+    return `${ts} [${level}] - ${message}`;
   });
 }
 
