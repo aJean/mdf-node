@@ -37,6 +37,10 @@ async function bootstrap() {
     })
   });
 
+  // render
+  app.setViewEngine('hbs');
+  app.setBaseViewsDir(`${process.cwd()}/views`);
+
   app.disable('x-powered-by');
   await app.listen({{{ port }}});
 
