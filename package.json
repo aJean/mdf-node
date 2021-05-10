@@ -1,6 +1,7 @@
 {
   "name": "@mdfjs/node",
   "version": "0.0.5",
+  "description": "mdf 混合项目工程模块",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -19,11 +20,11 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.12.3",
-    "@mdfjs/bundler-webpack": "^0.1.18",
     "@mdfjs/react": "^0.1.9",
-    "@mdfjs/server": "^0.1.18",
-    "@mdfjs/types": "^0.1.18",
-    "@mdfjs/utils": "^0.1.18",
+    "@mdfjs/bundler-webpack": "^0.1.23",
+    "@mdfjs/server": "^0.1.23",
+    "@mdfjs/types": "^0.1.23",
+    "@mdfjs/utils": "^0.1.23",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "rimraf": "3.0.2",
     "tree-kill": "1.2.2",
