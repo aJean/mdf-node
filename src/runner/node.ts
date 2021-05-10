@@ -46,6 +46,7 @@ export default class NodeRunner {
     const host = ts.createWatchCompilerHost(this.tsconfigPath, compilerOptions, ts.sys);
     const onSuccess = this.createOnSuccessHook();
 
+    // 保留 files 变量
     const origCreateProgram = host.createProgram;
     host.createProgram = function (rootNames, options, host, oldProgram) {
       return origCreateProgram(files, options, host, oldProgram);
@@ -115,6 +116,9 @@ export default class NodeRunner {
     };
   }
 
+  /**
+   * 启动 main 进程 
+   */
   spawnChildProcess() {
     const processArgs = [this.tscPaths.startFile];
     return spawn('node', processArgs, {

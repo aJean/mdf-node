@@ -20,5 +20,8 @@ export default class NodeRunner {
      */
     createStatusReporter(statusReporter: (diagnostic: ts.Diagnostic, ...args: any[]) => any, onSuccess?: () => void): (this: any, diagnostic: ts.Diagnostic, ...args: any[]) => any;
     createOnSuccessHook(): () => void;
+    /**
+     * 启动 main 进程
+     */
     spawnChildProcess(): import("child_process").ChildProcess;
 }

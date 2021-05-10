@@ -9,7 +9,7 @@ import { genTscPaths } from '../utils';
 
 export default function (api: IApi) {
   const tscPaths = genTscPaths(api);
-  const files = globFind(tscPaths.watchFile);
+  const files = globFind(tscPaths.watchFile); // 只需要 main.ts ?
   const program = ts.createProgram(files, {
     outDir: tscPaths.outDir,
     allowJs: true,
@@ -41,6 +41,23 @@ export default function (api: IApi) {
       errors.push(ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
     }
   });
+
+  // TODO: 是否要对每个文件都 transform，但需要依赖 ts 的事件触发
+  const needToDefine = `${api.cwd}/${tscPaths.outDir}/shared/utils.js`;
+  const babel = require('@babel/core');
+  const data = babel.transformFileSync(needToDefine, {
+    cwd: __dirname,
+    plugins: [
+      [
+        'transform-inline-environment-variables',
+        {
+          include: ['MDF_ENV'],
+        },
+      ],
+    ],
+  });
+
+  api.writeFile(needToDefine, data.code);
 
   return Promise.resolve(errors.length ? errors : null);
 }

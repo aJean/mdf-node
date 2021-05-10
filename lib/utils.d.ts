@@ -10,6 +10,7 @@ export declare type ITscPaths = {
 };
 /**
  * 根据项目类型生产匹配的目录
+ * TODO: main.ts 作为唯一 root 也生成到 .tmp 目录中，避免干扰用户代码
  */
 export declare function genTscPaths(api: any): ITscPaths;
 /**
