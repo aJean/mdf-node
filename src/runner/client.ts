@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import Bundler from '@mdfjs/bundler-webpack';
-import { DevServer } from '@mdfjs/server';
+import { startDevServer } from '@mdfjs/server';
 import { watch, chalkPrints, genAppPath, Spinner } from '@mdfjs/utils';
 
 /**
@@ -74,23 +74,29 @@ export default class ClientRunner {
 
     // dev pipeline
     const { webpackCompiler, serverOpts } = bundler.setupDev();
-    const server = new DevServer({
-      webpackCompiler,
-      serverOpts,
-      onFinish() {
-        api.invokePlugin({
-          key: 'processDone',
-          type: PluginType.flush,
-        });
-      },
-    });
+    startDevServer(webpackCompiler, serverOpts).then((res: any) => {
+      this.initWatchers(res.server);
 
-    server.start();
+      // 必须加个延时，要在 webpack 之后输出
+      setTimeout(function () {
+        api.invokePlugin({ key: 'processDone', type: PluginType.flush });
+
+        chalkPrints([[`\nsuccess: `, 'green'], ` mdf server`]);
+        console.log(` - ${res.msg}`);
+      }, 800);
+    });
+  }
+
+  /**
+   * 监控变化
+   */
+  initWatchers(server: any) {
+    const api = this.api;
 
     // important watchs
     const unwatchs: any = [];
     const unwatchConfig = watch({
-      path: `${cwd}/config`,
+      path: `${api.cwd}/config`,
       useMemo: true,
       onChange: function (type, path) {
         chalkPrints([[`${type}: `, 'green'], ` ${path}`]);
@@ -104,7 +110,7 @@ export default class ClientRunner {
 
     // 变化比较快，没必要提示了
     const unwatchApp = watch({
-      path: `${cwd}/${genAppPath(api)}`,
+      path: `${api.cwd}/${genAppPath(api)}`,
       onChange: () => this.generateCode(),
     });
 

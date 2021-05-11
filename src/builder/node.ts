@@ -42,10 +42,18 @@ export default function (api: IApi) {
     }
   });
 
-  // TODO: 是否要对每个文件都 transform，但需要依赖 ts 的事件触发
-  const needToDefine = `${api.cwd}/${tscPaths.outDir}/shared/utils.js`;
+  transformDefine([`${api.cwd}/${tscPaths.outDir}/shared/utils.js`], api);
+
+  return Promise.resolve(errors.length ? errors : null);
+}
+
+/**
+ * 等同 define plugin
+ * TODO: 是否要对每个文件都 transform，但需要依赖 ts 的事件触发
+ */
+function transformDefine(files: string[], api: IApi) {
   const babel = require('@babel/core');
-  const data = babel.transformFileSync(needToDefine, {
+  const opts = {
     cwd: __dirname,
     plugins: [
       [
@@ -55,9 +63,12 @@ export default function (api: IApi) {
         },
       ],
     ],
-  });
+  };
 
-  api.writeFile(needToDefine, data.code);
-
-  return Promise.resolve(errors.length ? errors : null);
+  try {
+    files.forEach((file) => {
+      const data = babel.transformFileSync(file, opts);
+      api.writeFile(file, data.code);
+    });
+  } catch (e) {}
 }

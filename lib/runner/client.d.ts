@@ -12,5 +12,9 @@ export default class ClientRunner {
     constructor(opts: ClientRunnerOpts);
     run(): Promise<void>;
     startServer(): void;
+    /**
+     * 监控变化
+     */
+    initWatchers(server: any): void;
     generateCode(): Promise<any>;
 }
