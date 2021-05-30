@@ -2,11 +2,11 @@
 node 工程模块，主要用来处理 node 项目的生成、构建与插件集成
 
 #### todos
-- 抽象基础能力封入框架层，main.ts 使用通用方案处理
-- updater 升级提示
-- middleware with nest 中间件自动混入
+- 抽象基础能力（shared）封入框架层，main.ts 使用通用方案处理
+- updater 升级提示，容器脚本
+- middleware with nest 中间件融合
 - 标准化打包 static + server
-- 容器脚本
+- 更多云端能力的接入
 
 #### main.ts
 由框架生成，用于配置化与内部扩展
