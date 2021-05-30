@@ -2,6 +2,7 @@
 node 工程模块，主要用来处理 node 项目的生成、构建与插件集成
 
 #### todos
+- 抽象基础能力封入框架层，main.ts 使用通用方案处理
 - updater 升级提示
 - middleware with nest 中间件自动混入
 - 标准化打包 static + server
@@ -9,7 +10,6 @@ node 工程模块，主要用来处理 node 项目的生成、构建与插件集
 
 #### main.ts
 由框架生成，用于配置化与内部扩展
-- 现在的问题是只能把  main.ts 生成到 src 源码下，对使用者透明
 
 #### 目录规范
 与 web 项目不同，node 项目根据 type 类型会采取不同的处理方式
