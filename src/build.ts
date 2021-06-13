@@ -3,7 +3,7 @@ import { genTscPaths } from './utils';
 import { errorPrint, chalkPrints, Spinner } from '@mdfjs/utils';
 import ClientBuilder from './builder/client';
 import NodeBuilder from './builder/node';
-import createNestEntry from './nestjs/main';
+import createNestEntry from './mdf/mdf';
 
 /**
  * @file 重写 mdfjs 的 build，构建 node 项目

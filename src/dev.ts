@@ -1,7 +1,7 @@
 import { IApi } from '@mdfjs/types';
 import NodeRunner from './runner/node';
 import ClientRunner from './runner/client';
-import createNestEntry from './nestjs/main';
+import createNestEntry from './mdf/mdf';
 
 /**
  * @file 重写 mdfjs 的 dev

@@ -28,6 +28,7 @@ export default class NodeRunner {
   run() {
     const { watchFile, outDir } = this.tscPaths;
     const files = globFind(watchFile);
+
     // 覆盖 tsconfig 里面的参数
     const compilerOptions = {
       outDir,

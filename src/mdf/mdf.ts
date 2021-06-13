@@ -1,23 +1,21 @@
 import { IApi } from '@mdfjs/types';
-import { join } from 'path';
 import { prettierFormat } from '@mdfjs/utils';
 import { genTscPaths } from '../utils';
 
 /**
- * @file 生产 node server main 入口
+ * @file mdf-node server 入口
  */
 
 export default function (api: IApi) {
   const { paths, Mustache } = api;
   const { project, envs } = api.getConfig();
-  const { mainFile } = genTscPaths(api);
-  const mainTpl = api.getFile(join(__dirname, './main.tpl'));
-  // 生成 main.ts 内容
-  const mainContent = Mustache.render(mainTpl, {
+  // 生成 mdf-nest.ts 内容
+  const content = Mustache.render(api.getFile(`${__dirname}/mdf.tpl`), {
     port: project.port || 3001,
     envs,
+    appFile: genTscPaths(api).appFile,
     formatPath: require.resolve('./formate'),
   });
 
-  api.writeFile(`${paths.absSrcPath}/${mainFile}`, prettierFormat(mainContent));
+  api.writeFile(`${paths.absTmpPath}/mdf-nest.ts`, prettierFormat(content));
 }

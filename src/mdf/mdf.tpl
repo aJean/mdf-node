@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { WinstonModule, utilities } from 'nest-winston';
-import AppModule from './app.module';
+import AppModule from '../{{{ appFile }}}';
 import { genHttpFormat, TIMESTAMP_OPTS } from '{{{ formatPath }}}';
 import 'winston-daily-rotate-file';
 

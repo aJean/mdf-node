@@ -1413,10 +1413,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@mdfjs/bundler-webpack@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/bundler-webpack/-/bundler-webpack-0.1.23.tgz#4a3a384f223f923aa70debc74ef4e12097eb3dcb"
-  integrity sha512-Ptn4ZFjcW4ZOaZlPPicCRX7rGpQsXugydrRI68nqf+qamARCNkt+QBnfhnz1ZC3M9L/cChp4i5eq+/eGL5FCpA==
+"@mdfjs/bundler-webpack@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/bundler-webpack/-/bundler-webpack-0.1.25.tgz#f7806c23078b1c77c8059ffacf6b9038ec9b1e54"
+  integrity sha512-XSqxrq8MNtMFw8IN9uBTY2UpCaM1I3se2mJHRoJDUZqMsXsOS2WM3mFxiT69jxU01iuk42BzNoKIh7YHjw+J5A==
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/plugin-proposal-class-properties" "7.12.1"
@@ -1425,8 +1425,8 @@
     "@babel/preset-env" "7.12.1"
     "@babel/preset-typescript" "7.12.1"
     "@babel/runtime" "7.12.5"
-    "@mdfjs/core" "^0.1.23"
-    "@mdfjs/records" "^0.1.23"
+    "@mdfjs/core" "^0.1.25"
+    "@mdfjs/records" "^0.1.25"
     "@mdx-js/loader" "1.6.21"
     "@svgr/webpack" "5.4.0"
     "@types/copy-webpack-plugin" "6.2.0"
@@ -1453,8 +1453,8 @@
     react "17.0.1"
     react-dom "17.0.1"
     resolve-url-loader "3.1.2"
-    sass "1.29.0"
-    sass-loader "10.1.0"
+    sass "1.34.1"
+    sass-loader "10.1.1"
     style-loader "2.0.0"
     terser-webpack-plugin "4.2.3"
     typescript "4.0.5"
@@ -1464,14 +1464,14 @@
     webpack-dev-middleware "4.0.2"
     webpackbar "5.0.0-3"
 
-"@mdfjs/core@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.1.23.tgz#e4185cb61feadb8b52d3f0d06b1fb8223deacce3"
-  integrity sha512-e98UmA8yshYI5OYZNMNwG70y6CBKCJ5I55ZK3X1gD1GzfnUShb1+CHN8aHNA9T9zHb7nkkU9DizOvF1muH8ltA==
+"@mdfjs/core@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.1.25.tgz#785372813401faeb87df33223554a84aaa322739"
+  integrity sha512-fhiaW3qUw4DEcf+APki7Uxegyv9ur9my9BbTwsRImVLi4qj1EGq6Zlw9+Nv7drtaBsqTXiXHWv8gxUCXSJfB5w==
   dependencies:
-    "@mdfjs/records" "^0.1.23"
-    "@mdfjs/runtime" "^0.1.23"
-    "@mdfjs/utils" "^0.1.23"
+    "@mdfjs/records" "^0.1.25"
+    "@mdfjs/runtime" "^0.1.25"
+    "@mdfjs/utils" "^0.1.25"
     "@types/mkdirp" "1.0.1"
     "@types/mustache" "4.0.1"
     "@types/webpack" "4.41.25"
@@ -1526,22 +1526,22 @@
     react-router-dom "5.2.0"
     redux-persist "6.0.0"
 
-"@mdfjs/records@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.1.23.tgz#13a6e1a80618203407b7700891dfd7946928919e"
-  integrity sha512-nV+0km+TOFe1BVE0QYQtGqdP2Dc4oVuL6DE90Q/ImoqGEMP6xUdM9Bhf1Ph1xcQE4tZeh98s+p9p0yuiG9I3Xw==
+"@mdfjs/records@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.1.25.tgz#964b427f1196d2a6033d23e56b5641e37cbba34b"
+  integrity sha512-WSAjjrfy3YYBGfwzOpgsZ0rreZ9KpOPJboGuOnBCKrjxcn60eUi7w62rn53x5CeOfEc8j2bnhog2NkCIWx9hZg==
 
 "@mdfjs/records@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.1.9.tgz#ef30e975a6d955c8028d99d9def1234188315217"
   integrity sha512-uu7tbZvncHPawxoshnveZ2qMO5RSR9JmH70jOtHBBPSdxz8GhcQvUCdeBo/Ip5rGUDerOcXJQjrx06Cp4mtl2A==
 
-"@mdfjs/runtime@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/runtime/-/runtime-0.1.23.tgz#079982cfcdd3cfef8e988844e3b4ef923e4ba42f"
-  integrity sha512-Ov99kg/Zh1TBh/HpWfFtr9/4z8B0EcXP6PLV0NagGvkK3pNWb0kPzlEFF1PMOjDudk/JdNauPKB0BdbnmWcQkw==
+"@mdfjs/runtime@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/runtime/-/runtime-0.1.25.tgz#717672e910f78fc569109891097c9bdb2086abbb"
+  integrity sha512-4wla0tXt2Vpgik2o5QZKcatDtBNLhh67cABs7Bovg3VJNQwgsMETy4e1XRce8Bit5MLFg0jb3qkeQzcoOxRbfg==
   dependencies:
-    "@mdfjs/records" "^0.1.23"
+    "@mdfjs/records" "^0.1.25"
 
 "@mdfjs/runtime@^0.1.9":
   version "0.1.9"
@@ -1550,12 +1550,12 @@
   dependencies:
     "@mdfjs/records" "^0.1.9"
 
-"@mdfjs/server@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/server/-/server-0.1.23.tgz#04c6987195eea1f7ad9ba6c314e21c3e1ddae7ec"
-  integrity sha512-1u1/KNHo/fVJExI7/rO0PCnFUnzB10gVNYH38jFSDe04iwTueT67IZ5JwiOOLp4b+boYtBwFdXLIOMpZj8JoEg==
+"@mdfjs/server@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/server/-/server-0.1.25.tgz#55f3fcf372f7a981a5cfa5871473b553e31c9487"
+  integrity sha512-QvEgTLMPe1HhRJGOORU1V/7B52zKQP773jj3kZ/SmNieogl9ndlbRRDZwoUq1IKlOTzUh4hZ9UQ7sxYi1Wf2+A==
   dependencies:
-    "@mdfjs/records" "^0.1.23"
+    "@mdfjs/records" "^0.1.25"
     "@types/express" "4.17.9"
     "@types/webpack" "4.41.25"
     "@types/webpack-dev-server" "3.11.1"
@@ -1564,13 +1564,13 @@
     internal-ip "^6.2.0"
     webpack-dev-server "3.11.0"
 
-"@mdfjs/types@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/types/-/types-0.1.23.tgz#e9471b621b47aca0c25a54c18d9b070a097b0cc2"
-  integrity sha512-TXbBSM+xOfW8TC5TDDogWxwfwYCnqUqcaeormkC6IXpDA9zGGecNZ7hma7CHPixYMx4XO/++CK15uCQgxK1QCg==
+"@mdfjs/types@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/types/-/types-0.1.25.tgz#e8ee9567bdb988af3d784ca183f122ed44adad98"
+  integrity sha512-IZSwK2oGtIkCgixZc7qtMiveNB/DsNPBK0rogDASpaUKTCzYKnFSpj2n6/f3V6FqK6IRQ3euTUGfMWZvoEwMwg==
   dependencies:
-    "@mdfjs/core" "^0.1.23"
-    "@mdfjs/records" "^0.1.23"
+    "@mdfjs/core" "^0.1.25"
+    "@mdfjs/records" "^0.1.25"
 
 "@mdfjs/types@^0.1.9":
   version "0.1.9"
@@ -1580,16 +1580,16 @@
     "@mdfjs/core" "^0.1.9"
     "@mdfjs/records" "^0.1.9"
 
-"@mdfjs/utils@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@mdfjs/utils/-/utils-0.1.23.tgz#f52f3b12fcf1ea63ba5f7f89045b8b47a03d2ebb"
-  integrity sha512-5H94N066DLV3KGPoPVjXScjjiXNQvRmoM6wnga81sAH/WIQhm2WSzjzb8p6O4I+CZMljUcu0EpsDoMzIFFmb8A==
+"@mdfjs/utils@^0.1.25":
+  version "0.1.25"
+  resolved "https://registry.yarnpkg.com/@mdfjs/utils/-/utils-0.1.25.tgz#004b74dfe92f4554e9799d1b0dc079bfe70bd8ef"
+  integrity sha512-eX3wBxkJgaJsO4op/+40OY5YliBxTFr7a8D2TG8LRRrrU3DYMK/C5kCp87qnRHUEVOPL/oXnWTObfnRSbZqpGw==
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/preset-env" "7.12.1"
     "@babel/preset-typescript" "7.12.1"
     "@babel/register" "7.12.1"
-    "@mdfjs/records" "^0.1.23"
+    "@mdfjs/records" "^0.1.25"
     babel-plugin-module-resolver "4.0.0"
     chalk "4.1.0"
     chokidar "3.4.3"
@@ -3634,7 +3634,7 @@ chokidar@3.4.3:
   optionalDependencies:
     fsevents "~2.1.2"
 
-"chokidar@>=2.0.0 <4.0.0", chokidar@^3.0.2, chokidar@^3.4.1:
+"chokidar@>=3.0.0 <4.0.0", chokidar@^3.0.2, chokidar@^3.4.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.1.tgz#ee9ce7bbebd2b79f49f304799d5468e31e14e68a"
   integrity sha512-9+s+Od+W0VJJzawDma/gvBNQqkTiqYTWLuZoyAsivsI4AaWTCzHG06/TMjsf1cYe9Cb97UCEhjz7HvnPk2p/tw==
@@ -10387,10 +10387,10 @@ sanitize.css@*:
   resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-12.0.1.tgz#f20369357557ba2b41d7278eeb3ea691a3bee514"
   integrity sha512-QbusSBnWHaRBZeTxsJyknwI0q+q6m1NtLBmB76JfW/rdVN7Ws6Zz70w65+430/ouVcdNVT3qwrDgrM6PaYyRtw==
 
-sass-loader@10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.1.0.tgz#1727fcc0c32ab3eb197cda61d78adf4e9174a4b3"
-  integrity sha512-ZCKAlczLBbFd3aGAhowpYEy69Te3Z68cg8bnHHl6WnSCvnKpbM6pQrz957HWMa8LKVuhnD9uMplmMAHwGQtHeg==
+sass-loader@10.1.1:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.1.1.tgz#4ddd5a3d7638e7949065dd6e9c7c04037f7e663d"
+  integrity sha512-W6gVDXAd5hR/WHsPicvZdjAWHBcEJ44UahgxcIE196fW2ong0ZHMPO1kZuI5q0VlvMQZh32gpv69PLWQm70qrw==
   dependencies:
     klona "^2.0.4"
     loader-utils "^2.0.0"
@@ -10398,12 +10398,12 @@ sass-loader@10.1.0:
     schema-utils "^3.0.0"
     semver "^7.3.2"
 
-sass@1.29.0:
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.29.0.tgz#ec4e1842c146d8ea9258c28c141b8c2b7c6ab7f1"
-  integrity sha512-ZpwAUFgnvAUCdkjwPREny+17BpUj8nh5Yr6zKPGtLNTLrmtoRYIjm7njP24COhjJldjwW1dcv52Lpf4tNZVVRA==
+sass@1.34.1:
+  version "1.34.1"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.34.1.tgz#30f45c606c483d47b634f1e7371e13ff773c96ef"
+  integrity sha512-scLA7EIZM+MmYlej6sdVr0HRbZX5caX5ofDT9asWnUJj21oqgsC+1LuNfm0eg+vM0fCTZHhwImTiCU0sx9h9CQ==
   dependencies:
-    chokidar ">=2.0.0 <4.0.0"
+    chokidar ">=3.0.0 <4.0.0"
 
 sax@~1.2.4:
   version "1.2.4"

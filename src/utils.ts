@@ -4,24 +4,24 @@
 
 export type ITscPaths = {
   watchFile: string;
-  startFile: string; // node 启动文件
-  mainFile: string; // node main 文件
+  startFile: string;
+  appFile: string;
   outDir: string;
-  absOutDir: string; // rimraf 删除
+  absOutDir: string;
 };
 
 /**
  * 根据项目类型生产匹配的目录
- * TODO: main.ts 作为唯一 root 也生成到 .tmp 目录中，避免干扰用户代码
  */
 export function genTscPaths(api: any): ITscPaths {
   const { project } = api.getConfig();
   // 所有项目的 node 代码产出目录都是 server
   const paths = {
-    watchFile: `${api.cwd}/src/server/**.ts`,
-    startFile: 'dist/server/main.js',
-    mainFile: 'server/main.ts',
+    watchFile: `${api.paths.absTmpPath}/mdf-nest.ts`,
+    startFile: 'dist/server/.tmp/mdf-nest.js',
+    appFile: 'src/server/app.module',
     outDir: 'dist/server',
+    // 每次构建先删除
     absOutDir: `${api.cwd}/dist`,
   };
 
@@ -29,9 +29,7 @@ export function genTscPaths(api: any): ITscPaths {
     case 'hybrid':
       return paths;
     default:
-      paths.watchFile = `${api.cwd}/src/**.ts`;
-      paths.mainFile = 'main.ts';
-
+      paths.appFile = 'src/app.module';
       return paths;
   }
 }
@@ -43,7 +41,7 @@ export function safeGetProperty(path, target) {
   const tokens = path.split('.');
   let result = target;
 
-  while(tokens.length) {
+  while (tokens.length) {
     const token = tokens.shift();
     if (result[token]) {
       result = result[token];
