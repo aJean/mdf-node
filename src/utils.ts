@@ -3,11 +3,11 @@
  */
 
 export type ITscPaths = {
+  setup: string;
   watchFile: string;
-  startFile: string;
   appFile: string;
-  outDir: string;
-  absOutDir: string;
+  devDir: string; // 本地构建
+  outDir: string; // 线上打包
 };
 
 /**
@@ -17,12 +17,11 @@ export function genTscPaths(api: any): ITscPaths {
   const { project } = api.getConfig();
   // 所有项目的 node 代码产出目录都是 server
   const paths = {
+    setup: '.tmp/server/.tmp/mdf-nest.js',
     watchFile: `${api.paths.absTmpPath}/mdf-nest.ts`,
-    startFile: 'dist/server/.tmp/mdf-nest.js',
     appFile: 'src/server/app.module',
+    devDir: '.tmp/server',
     outDir: 'dist/server',
-    // 每次构建先删除
-    absOutDir: `${api.cwd}/dist`,
   };
 
   switch (project.type) {

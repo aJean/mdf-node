@@ -1,5 +1,4 @@
 import { IApi } from '@mdfjs/types';
-import { genTscPaths } from './utils';
 import { errorPrint, chalkPrints, Spinner } from '@mdfjs/utils';
 import ClientBuilder from './builder/client';
 import NodeBuilder from './builder/node';
@@ -15,17 +14,16 @@ export default function (api: IApi) {
     name: 'build',
     async fn() {
       const { project } = api.getConfig();
-      const tscPaths = genTscPaths(api);
       // @todo 与 webpack process 冲突
       const spinner = new Spinner({ text: 'start to build' }).info();
 
       // 清空 dist
-      rimraf.sync(tscPaths.absOutDir);
+      rimraf.sync('dist');
       // 创建 node 入口
       createNestEntry(api);
 
       // 混合项目需要先构建 client
-      if (project.type === 'hybrid') {
+      if (project.type !== 'hybrid') {
         ClientBuilder(api).then(
           () => {
             spinner.start({ text: 'build node files' });
@@ -48,8 +46,8 @@ export default function (api: IApi) {
       function finish(errors) {
         if (errors) {
           spinner.fail({ text: 'build error' });
-          rimraf.sync(tscPaths.absOutDir);
           chalkPrints([[`error: `, 'red'], errors[0]]);
+          rimraf.sync('dist');
         } else {
           spinner.succeed({ text: 'build success' });
         }

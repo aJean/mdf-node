@@ -14,6 +14,7 @@ export type NodeRunnerOpts = {
   tsconfigPath: string;
 };
 
+const rimraf = require('rimraf');
 export default class NodeRunner {
   tsconfigPath: string;
   tscPaths: ITscPaths;
@@ -26,12 +27,14 @@ export default class NodeRunner {
   }
 
   run() {
-    const { watchFile, outDir } = this.tscPaths;
+    const { watchFile, devDir } = this.tscPaths;
     const files = globFind(watchFile);
+    // 删除上次的结果
+    rimraf.sync(devDir);
 
     // 覆盖 tsconfig 里面的参数
     const compilerOptions = {
-      outDir,
+      outDir: devDir,
       allowJs: true,
       noImplicitReturns: true,
       target: ts.ScriptTarget.ES2017,
@@ -60,7 +63,7 @@ export default class NodeRunner {
   }
 
   /**
-   * 加入编译成功状态处理
+   * 加入编译状态处理
    */
   createStatusReporter(
     statusReporter: (diagnostic: ts.Diagnostic, ...args: any[]) => any,
@@ -73,8 +76,8 @@ export default class NodeRunner {
       if (text && text.includes && text.includes(noErrors) && onSuccess) {
         onSuccess();
       }
-
-      return statusReporter.call(this, diagnostic, ...args);
+      
+      statusReporter.call(this, diagnostic, ...args);
     };
   }
 
@@ -118,10 +121,10 @@ export default class NodeRunner {
   }
 
   /**
-   * 启动 main 进程 
+   * 启动 main 进程
    */
   spawnChildProcess() {
-    const processArgs = [this.tscPaths.startFile];
+    const processArgs = [this.tscPaths.setup];
     return spawn('node', processArgs, {
       stdio: 'inherit',
       shell: true,

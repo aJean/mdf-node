@@ -9,12 +9,13 @@ import { genTscPaths } from '../utils';
 export default function (api: IApi) {
   const { paths, Mustache } = api;
   const { project, envs } = api.getConfig();
-  // 生成 mdf-nest.ts 内容
+  // 生成 mdf-nest.ts code
   const content = Mustache.render(api.getFile(`${__dirname}/mdf.tpl`), {
     port: project.port || 3001,
     envs,
     appFile: genTscPaths(api).appFile,
     formatPath: require.resolve('./formate'),
+    useLogger: project.useLogger,
   });
 
   api.writeFile(`${paths.absTmpPath}/mdf-nest.ts`, prettierFormat(content));
