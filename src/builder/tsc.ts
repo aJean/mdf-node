@@ -4,12 +4,12 @@ import { globFind } from '@mdfjs/utils';
 import { genTscPaths } from '../utils';
 
 /**
- * @file 用于构建 node 代码，ts 是同步执行
+ * @file 使用 typescript 构建源码
  */
 
 export default function (api: IApi) {
   const tscPaths = genTscPaths(api);
-  const files = globFind(tscPaths.watchFile); // 只需要 main.ts ?
+  const files = globFind(tscPaths.watchFile); // .tmp/mdf-nest.ts
   const program = ts.createProgram(files, {
     outDir: tscPaths.outDir,
     allowJs: true,

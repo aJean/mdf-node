@@ -14,8 +14,7 @@ export default function (api: IApi) {
     port: project.port || 3001,
     envs,
     appFile: genTscPaths(api).appFile,
-    formatPath: require.resolve('./formate'),
-    useLogger: project.useLogger,
+    useLogger: project.useLogger !== false,
   });
 
   api.writeFile(`${paths.absTmpPath}/mdf-nest.ts`, prettierFormat(content));

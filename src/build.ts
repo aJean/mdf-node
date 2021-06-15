@@ -1,7 +1,7 @@
 import { IApi } from '@mdfjs/types';
-import { errorPrint, chalkPrints, Spinner } from '@mdfjs/utils';
+import { errorPrint, Spinner } from '@mdfjs/utils';
 import ClientBuilder from './builder/client';
-import NodeBuilder from './builder/node';
+import RollupBuilder from './builder/rollup';
 import createNestEntry from './mdf/mdf';
 
 /**
@@ -23,7 +23,7 @@ export default function (api: IApi) {
       createNestEntry(api);
 
       // 混合项目需要先构建 client
-      if (project.type !== 'hybrid') {
+      if (project.type === 'hybrid') {
         ClientBuilder(api).then(
           () => {
             spinner.start({ text: 'build node files' });
@@ -32,25 +32,25 @@ export default function (api: IApi) {
               type: api.PluginType.flush,
             });
 
-            NodeBuilder(api).then((errors) => finish(errors));
+            RollupBuilder(api)
+              .then(() => spinner.succeed({ text: 'build success' }))
+              .catch((e) => doError(e));
           },
           (e: any) => errorPrint(e),
         );
       } else {
-        NodeBuilder(api).then((errors) => finish(errors));
+        RollupBuilder(api)
+          .then(() => spinner.succeed({ text: 'build success' }))
+          .catch((e) => doError(e));
       }
 
       /**
        * error 要删除 dist
        */
-      function finish(errors) {
-        if (errors) {
-          spinner.fail({ text: 'build error' });
-          chalkPrints([[`error: `, 'red'], errors[0]]);
-          rimraf.sync('dist');
-        } else {
-          spinner.succeed({ text: 'build success' });
-        }
+      function doError(e) {
+        spinner.fail({ text: 'build error' });
+        console.error(e);
+        rimraf.sync('dist');
       }
     },
   });

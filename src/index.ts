@@ -1,13 +1,12 @@
-import * as rxjs from 'rxjs';
-import * as core from '@nestjs/core';
-import * as express from '@nestjs/platform-express';
 import { IApi } from '@mdfjs/types';
-// require('update-notifier');
+import * as Winston from 'winston';
+import 'winston-daily-rotate-file';
 
 /**
- * @file node 插件集
+ * @file mdf-node 插件集
  */
 
+// require('update-notifier');
 export default function (api: IApi) {
   const presets = [
     require.resolve('@mdfjs/react'),
@@ -18,5 +17,12 @@ export default function (api: IApi) {
   return { presets };
 }
 
-export { rxjs, core, express };
 export * from '@nestjs/common';
+export * from '@nestjs/config';
+export * from 'nest-winston';
+export * as Helper from './mdf/helper';
+export * as Rxjs from 'rxjs';
+export * as Core from '@nestjs/core';
+export * as Express from '@nestjs/platform-express';
+export * as Serve from '@nestjs/serve-static';
+export { Winston };
