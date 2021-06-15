@@ -12,9 +12,8 @@ import { genTscPaths } from '../utils';
  */
 
 export default async function (api: IApi) {
-  const tscPaths = genTscPaths(api);
+  const { entry, buildDir } = genTscPaths(api);
   const compilerOptions = {
-    outDir: tscPaths.outDir,
     allowJs: true,
     noImplicitReturns: true,
     target: ts.ScriptTarget.ES2017,
@@ -29,9 +28,9 @@ export default async function (api: IApi) {
   };
 
   const config: any = {
-    input: tscPaths.watchFile,
+    input: entry,
     output: {
-      file: `${api.cwd}/dist/server/mdf-nest.js`,
+      file: `${api.cwd}/${buildDir}/mdf-nest.js`,
       format: 'cjs',
     },
     plugins: [

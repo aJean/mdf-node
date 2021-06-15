@@ -8,10 +8,10 @@ import { genTscPaths } from '../utils';
  */
 
 export default function (api: IApi) {
-  const tscPaths = genTscPaths(api);
-  const files = globFind(tscPaths.watchFile); // .tmp/mdf-nest.ts
+  const { entry, buildDir } = genTscPaths(api);
+  const files = globFind(entry); // .tmp/mdf-nest.ts
   const program = ts.createProgram(files, {
-    outDir: tscPaths.outDir,
+    outDir: buildDir,
     allowJs: true,
     noImplicitReturns: true,
     target: ts.ScriptTarget.ES2017,
@@ -42,7 +42,7 @@ export default function (api: IApi) {
     }
   });
 
-  transformDefine([`${api.cwd}/${tscPaths.outDir}/shared/utils.js`], api);
+  transformDefine([`${api.cwd}/${buildDir}/shared/utils.js`], api);
 
   return Promise.resolve(errors.length ? errors : null);
 }

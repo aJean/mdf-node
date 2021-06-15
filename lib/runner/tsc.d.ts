@@ -3,7 +3,7 @@ import { IApi } from '@mdfjs/types';
 import ts from 'typescript';
 import { ITscPaths } from '../utils';
 /**
- * @file node runner
+ * @file mdf-node tsc runner
  */
 export declare type NodeRunnerOpts = {
     api: IApi;

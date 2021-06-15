@@ -1,5 +1,5 @@
 import { IApi } from '@mdfjs/types';
-import NodeRunner from './runner/node';
+import TscRunner from './runner/tsc';
 import ClientRunner from './runner/client';
 import createNestEntry from './mdf/mdf';
 
@@ -19,7 +19,7 @@ export default function (api: IApi) {
       // 启动 server 部分
       if (args.node) {
         createNestEntry(api);
-        runner = new NodeRunner({
+        runner = new TscRunner({
           api,
           tsconfigPath: require.resolve('../tsconfig.json'),
         });
