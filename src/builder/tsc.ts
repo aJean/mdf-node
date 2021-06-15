@@ -42,16 +42,14 @@ export default function (api: IApi) {
     }
   });
 
-  transformDefine([`${api.cwd}/${buildDir}/shared/utils.js`], api);
-
+  injectDefines([`${api.cwd}/${buildDir}/shared/utils.js`], api);
   return Promise.resolve(errors.length ? errors : null);
 }
 
 /**
- * 等同 define plugin
- * TODO: 是否要对每个文件都 transform，但需要依赖 ts 的事件触发
+ * 等同 define plugin，是否要对每个文件都 inject，但需要依赖 ts 的事件触发
  */
-function transformDefine(files: string[], api: IApi) {
+function injectDefines(files: string[], api: IApi) {
   const babel = require('@babel/core');
   const opts = {
     cwd: __dirname,

@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import { errorPrint, Spinner } from '@mdfjs/utils';
-import ClientBuilder from './builder/client';
+import BrowserBuilder from './builder/browser';
 import RollupBuilder from './builder/rollup';
 import createNestEntry from './mdf/mdf';
 
@@ -24,7 +24,7 @@ export default function (api: IApi) {
 
       // 混合项目需要先构建 client
       if (project.type === 'hybrid') {
-        ClientBuilder(api).then(
+        BrowserBuilder(api).then(
           () => {
             spinner.start({ text: 'build node files' });
             api.invokePlugin({
