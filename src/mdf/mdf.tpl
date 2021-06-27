@@ -1,44 +1,43 @@
-import { core, express } from '@mdfjs/node';
-import AppModule from '../{{{ appFile }}}';
+import { Core, Express, WinstonModule, utilities } from '@mdfjs/node';
 {{#useLogger}}
-import { WinstonModule, utilities } from 'nest-winston';
-import { genHttpFormat, TIMESTAMP_OPTS } from '{{{ formatPath }}}';
-import 'winston-daily-rotate-file';
+import { Winston, Helper } from '@mdfjs/node';
 {{/useLogger}}
+import AppModule from '../{{{ appFile }}}';
 
 /**
  * @file 框架生产，禁止修改
  * @todo 待处理：中间件、工具库、监控等
  */
 
-const opts = { cors: true };
+const opts: any = { cors: true };
 {{#useLogger}}
-  const winston = require('winston');
+  const { genHttpFormat, TIMESTAMP_OPTS } = Helper;
+
   opts.logger = WinstonModule.createLogger({
     transports: [
-      new winston.transports.Console({
-        format: winston.format.combine(winston.format.timestamp(), utilities.format.nestLike()),
+      new Winston.transports.Console({
+        format: Winston.format.combine(Winston.format.timestamp(), utilities.format.nestLike()),
       }),
-      new winston.transports.DailyRotateFile({
+      new Winston.transports.DailyRotateFile({
         datePattern: 'YYYY-MM-DD-HH',
         filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.log',
         level: 'info',
         maxFiles: '14d',
-        format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
+        format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
       }),
-      new winston.transports.DailyRotateFile({
+      new Winston.transports.DailyRotateFile({
         datePattern: 'YYYY-MM-DD-HH',
         filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%_error.log',
         level: 'error',
         maxFiles: '14d',
-        format: winston.format.combine(winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
+        format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
       }),
     ]
   });
 {{/useLogger}}
 
 async function bootstrap() {
-  const app = await core.NestFactory.create<express.NestExpressApplication>(AppModule, opts);
+  const app = await Core.NestFactory.create<Express.NestExpressApplication>(AppModule, opts);
 
   // render
   app.setViewEngine('hbs');

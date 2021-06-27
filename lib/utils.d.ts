@@ -2,11 +2,11 @@
  * @file utils
  */
 export declare type ITscPaths = {
+    entry: string;
     setup: string;
-    watchFile: string;
     appFile: string;
     devDir: string;
-    outDir: string;
+    buildDir: string;
 };
 /**
  * 根据项目类型生产匹配的目录

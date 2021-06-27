@@ -6,7 +6,7 @@ import ts from 'typescript';
 import { ITscPaths, genTscPaths } from '../utils';
 
 /**
- * @file node runner
+ * @file mdf-node tsc runner
  */
 
 export type NodeRunnerOpts = {
@@ -27,8 +27,8 @@ export default class NodeRunner {
   }
 
   run() {
-    const { watchFile, devDir } = this.tscPaths;
-    const files = globFind(watchFile);
+    const { entry, devDir } = this.tscPaths;
+    const files = globFind(entry);
     // 删除上次的结果
     rimraf.sync(devDir);
 
@@ -76,7 +76,7 @@ export default class NodeRunner {
       if (text && text.includes && text.includes(noErrors) && onSuccess) {
         onSuccess();
       }
-      
+
       statusReporter.call(this, diagnostic, ...args);
     };
   }
