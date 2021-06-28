@@ -1,5 +1,5 @@
 import { IApi } from '@mdfjs/types';
-import { watch, globFind, chalkPrints } from '@mdfjs/utils';
+import { watch, globFind, chalkPrints, rmrf } from '@mdfjs/utils';
 import { spawn } from 'child_process';
 import killProcess from 'tree-kill';
 import ts from 'typescript';
@@ -14,7 +14,6 @@ export type NodeRunnerOpts = {
   tsconfigPath: string;
 };
 
-const rimraf = require('rimraf');
 export default class NodeRunner {
   tsconfigPath: string;
   tscPaths: ITscPaths;
@@ -30,7 +29,7 @@ export default class NodeRunner {
     const { entry, devDir } = this.tscPaths;
     const files = globFind(entry);
     // 删除上次的结果
-    rimraf.sync(devDir);
+    rmrf(devDir);
 
     // 覆盖 tsconfig 里面的参数
     const compilerOptions = {
