@@ -34,7 +34,10 @@
     "@rollup/plugin-typescript": "8.2.1",
     "babel-plugin-transform-inline-environment-variables": "0.4.3",
     "builtin-modules": "3.2.0",
+    "jaeger-client": "3.18.1",
+    "mongodb": "3.6.9",
     "nest-winston": "1.5.0",
+    "opentracing": "0.14.5",
     "reflect-metadata": "0.1.13",
     "rollup": "2.51.2",
     "rollup-plugin-commonjs": "10.1.0",
@@ -48,6 +51,8 @@
     "winston-daily-rotate-file": "4.5.5"
   },
   "devDependencies": {
+    "@types/jaeger-client": "^3.18.1",
+    "@types/mongodb": "^3.6.19",
     "father-build": "1.19.1"
   }
 }

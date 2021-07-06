@@ -1,35 +1,68 @@
-import { HttpService } from '@nestjs/common';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { getProcessEnv, getHeaderKeys } from './utils';
+import { MongoClient } from 'mongodb';
+import { MdfService } from './mdf.module';
 
 /**
- * @file 业务 service 抽象类
+ * @file app service
  */
 
 export type Opts_Rpc = {
-  request?: string;
   path?: string;
   method?: string;
   data?: any;
   headers?: any;
 };
 
+export type Http_Rpc = {
+  url: string;
+  method?: string;
+  data?: any;
+  config?: any;
+};
+
 export abstract class AppService {
   type: string;
 
-  constructor(type: string, protected httpService: HttpService, protected ct: ContextService) {
+  constructor(type: string, protected mdfService: MdfService) {
     this.type = type;
+  }
+
+  /**
+   * 环境变量
+   */
+  getEnv(key: string) {
+    return this.mdfService.getConfig(key);
+  }
+
+  /**
+   * 获取 mongo connect
+   */
+  getMongo() {
+    const host = `mongodb://${this.getEnv('MONGO_HOST')}`;
+    return MongoClient.connect(host, { useUnifiedTopology: true });
   }
 
   /**
    * 发送 rpc 请求, 熔断、限流都放到这里处理
    */
   rpc(opts: Opts_Rpc): Observable<any> {
-    const http = this.httpService;
-    const { request, path, method, data, headers } = opts;
-    const url = request || `${this.ct.getHost(this.type)}/${path}`;
+    const http = this.mdfService.http();
+    const type = this.type.toUpperCase();
+    const { path, method, data, headers } = opts;
+    const url = `${this.getEnv(`API_HOST_${type}`)}/${path}`;
     const config = { headers: extractKeys(headers) };
+
+    return method === 'POST' ? http.post(url, data, config) : http.get(url, config);
+  }
+
+  /**
+   * 发送普通 http 请求
+   */
+  send(opts: Http_Rpc) {
+    const http = this.mdfService.http();
+    const { url, method, data, config } = opts;
 
     return method === 'POST' ? http.post(url, data, config) : http.get(url, config);
   }
@@ -37,22 +70,29 @@ export abstract class AppService {
   /**
    * 模拟返回 observable
    */
-  mockResponse(data: any, status?: number, msg: string = '') {
+  pipeMock(data: any, status?: number, msg: string = '') {
     return from([{ data: { code: status === undefined ? 200 : status, msg, data } }]);
+  }
+
+  /**
+   * 直接返回 data
+   */
+  pipeData(data: any) {
+    return { _type: 'data', ...data };
   }
 
   /**
    * 处理 image 流
    */
-  dealImage() {
+  pipeImage() {
     return map((res: any) => {
       const url = res.config.url;
       const ext = url.split('.').pop() || 'png';
 
       return {
-        useStream: true,
+        _type: 'img',
         data: res.data,
-        type: `image/${ext}`,
+        mime: `image/${ext}`,
       };
     });
   }
@@ -60,8 +100,8 @@ export abstract class AppService {
   /**
    * 处理异常
    */
-  dealError() {
-    return catchError((e: any) => this.mockResponse(null, 500, e.message));
+  pipeError() {
+    return catchError((e: any) => this.pipeMock(null, 500, e.message));
   }
 }
 

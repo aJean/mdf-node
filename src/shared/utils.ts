@@ -1,5 +1,5 @@
-import { from } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { ServiceUnavailableException } from '@nestjs/common';
+import jaeger from 'jaeger-client';
 
 /**
  * @file utils
@@ -36,13 +36,6 @@ export function genEnvFiles() {
 }
 
 /**
- * 模拟 observerable
- */
-export function mockResponse(data: any, status?: number, msg: string = '') {
-  return from([{ data: { code: status === undefined ? 200 : status, msg, data } }]);
-}
-
-/**
  * opentracing endpoint 应该放到配置中心里面
  */
 export function getJaegerEndpoint() {
@@ -52,21 +45,44 @@ export function getJaegerEndpoint() {
 }
 
 /**
- * 处理 image 流
+ * 初始化 tracer
  */
-export function dealImage() {
-  return map((res: any) => {
-    const url = res.config.url;
-    const ext = url.split('.').pop() || 'png';
-
-    return {
-      useStream: true,
-      data: res.data,
-      type: `image/${ext}`,
-    };
-  });
+export function getJaegerTracer() {
+  return jaeger.initTracer(
+    {
+      serviceName: '101-bff',
+      sampler: { type: 'const', param: 1 },
+      reporter: { collectorEndpoint: getJaegerEndpoint() },
+    },
+    {
+      tags: {
+        '101-bff.version': '0.0.1',
+      },
+    },
+  );
 }
 
-export function dealError() {
-  return catchError((e: any) => mockResponse(null, 500, e.message));
+/**
+ * 要使用 redis 请先安装 ioredis
+ */
+export function getRedis() {
+  const ioredis = require('ioredis');
+  const redis = new ioredis({
+    port: 6379,
+    // @ts-ignore
+    host: this.configService.get('REDIS_HOST'),
+    family: 4,
+    db: 4,
+    lazyConnect: true,
+  });
+
+  redis.on('error', (e: any) => {
+    redis.disconnect();
+
+    const error: any = {};
+    Error.captureStackTrace(error);
+    throw new ServiceUnavailableException(`redis ${e.message} ${error.stack}`);
+  });
+
+  return redis;
 }
