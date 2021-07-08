@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
 import TscRunner from './runner/tsc';
-import BrowserRunner from './runner/browser';
+import ClientRunner from './runner/client';
 import createNestEntry from './mdf/mdf';
 
 /**
@@ -26,8 +26,8 @@ export default function (api: IApi) {
 
         runner.run();
       } else {
-        runner = new BrowserRunner({ api });
-        runner.run();
+        runner = new ClientRunner({ api });
+        await runner.run();
       }
     },
   });

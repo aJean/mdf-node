@@ -1,6 +1,6 @@
 import { IApi } from '@mdfjs/types';
-import { errorPrint, Spinner, rmrf } from '@mdfjs/utils';
-import BrowserBuilder from './builder/browser';
+import { Spinner, rmrf } from '@mdfjs/utils';
+import ClientBuilder from './builder/client';
 import RollupBuilder from './builder/rollup';
 import createNestEntry from './mdf/mdf';
 
@@ -21,35 +21,19 @@ export default function (api: IApi) {
       // 创建 node 入口
       createNestEntry(api);
 
-      // 混合项目需要先构建 client
-      if (project.type === 'hybrid') {
-        BrowserBuilder(api).then(
-          () => {
-            spinner.start({ text: 'build node files' });
-            api.invokePlugin({
-              key: 'processDone',
-              type: api.PluginType.flush,
-            });
+      switch (project.type) {
+        // 混合项目需要先构建 client
+        case 'hybrid':
+          await ClientBuilder(api);
+          spinner.start({ text: 'build node files' });
+          api.invokePlugin({ key: 'processDone', type: api.PluginType.flush });
 
-            RollupBuilder(api)
-              .then(() => spinner.succeed({ text: 'build success' }))
-              .catch((e) => doError(e));
-          },
-          (e: any) => errorPrint(e),
-        );
-      } else {
-        RollupBuilder(api)
-          .then(() => spinner.succeed({ text: 'build success' }))
-          .catch((e) => doError(e));
-      }
-
-      /**
-       * error 要删除 dist
-       */
-      function doError(e) {
-        spinner.fail({ text: 'build error' });
-        console.error(e);
-        rmrf('dist');
+          await RollupBuilder(api);
+          spinner.succeed({ text: 'build success' });
+          process.exit(0);
+        default:
+          await RollupBuilder(api);
+          spinner.succeed({ text: 'build success' });
       }
     },
   });

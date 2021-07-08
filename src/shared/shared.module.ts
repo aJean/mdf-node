@@ -1,14 +1,14 @@
 import { HttpModule, Module, Injectable, HttpService } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import Serve from '@nestjs/serve-static';
-import { genEnvFiles } from './utils';
+import Helper from './helper';
 
 /**
- * @file mdf 公共服务
+ * @file shared 公共服务
  */
 
 @Injectable()
-export class MdfService {
+export class SharedService {
   constructor(protected httpService: HttpService, protected configService: ConfigService) {}
 
   http() {
@@ -33,12 +33,12 @@ export type MdfModuleOptions = {
 @Module({
   imports: [
     HttpModule.register({ timeout: 15000 }),
-    ConfigModule.forRoot({ envFilePath: genEnvFiles(), isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: Helper.genEnvFiles(), isGlobal: true }),
   ],
-  providers: [MdfService],
-  exports: [HttpModule, MdfService],
+  providers: [SharedService],
+  exports: [HttpModule, SharedService],
 })
-export class MdfModule {
+export class SharedModule {
   static forRoot(opts: MdfModuleOptions): any {
     const { timeout, serve, envs } = opts;
     const imports = [
@@ -56,10 +56,10 @@ export class MdfModule {
     }
 
     return {
-      ngModule: MdfModule,
+      ngModule: SharedModule,
       imports,
-      providers: [MdfService],
-      exports: [HttpModule, MdfService],
+      providers: [SharedService],
+      exports: [HttpModule, SharedService],
     };
   }
 }

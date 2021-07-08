@@ -8,7 +8,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { getLogTokens } from '../utils';
+import Helper from '../helper';
 
 /**
  * @file 全局异常捕获
@@ -44,7 +44,7 @@ export default class ErrorFilter extends BaseExceptionFilter {
    */
   doLog(request: any, error: Error): void {
     const { url, headers, method, body } = request;
-    const tokens = getLogTokens(headers);
+    const tokens = Helper.getLogTokens(headers);
 
     if (request['__traceSpan__']) {
       const span = request['__traceSpan__'];

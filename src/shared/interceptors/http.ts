@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getLogTokens } from '../utils';
 import { Readable } from 'stream';
+import Helper from '../helper';
 
 /**
  * @file 接口数据处理
@@ -69,7 +69,7 @@ export default class HttpInterceptor implements NestInterceptor {
    */
   doLog(req: Request): void {
     const { url, headers, method, body } = req;
-    const tokens = getLogTokens(headers);
+    const tokens = Helper.getLogTokens(headers);
 
     this.logger.log(`${method} ${url} ${tokens} ${JSON.stringify(body)}`);
   }

@@ -11,8 +11,8 @@ import { genTscPaths } from '../utils';
  * @file rollup node builder
  */
 
-export default async function (api: IApi) {
-  const { entry, buildDir } = genTscPaths(api);
+export default function (api: IApi) {
+  const { entry, buildDir, files } = genTscPaths(api);
   const compilerOptions = {
     allowJs: true,
     noImplicitReturns: true,
@@ -25,6 +25,7 @@ export default async function (api: IApi) {
     suppressImplicitAnyIndexErrors: true,
     skipLibCheck: true,
     declaration: false,
+    include: ['.tmp/mdf-nest.ts', files],
   };
 
   const config: any = {
@@ -45,6 +46,5 @@ export default async function (api: IApi) {
     ],
   };
 
-  const bundle = await rollup.rollup(config);
-  return bundle.write(config.output);
+  return rollup.rollup(config).then((bundle) => bundle.write(config.output));
 }

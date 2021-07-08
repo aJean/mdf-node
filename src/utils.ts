@@ -8,6 +8,7 @@ export type ITscPaths = {
   appFile: string;
   devDir: string; // 本地构建
   buildDir: string; // 线上打包
+  files: string; // ts include
 };
 
 /**
@@ -22,6 +23,7 @@ export function genTscPaths(api: any): ITscPaths {
     appFile: 'src/server/app.module',
     devDir: '.tmp/server',
     buildDir: 'dist/server',
+    files: 'src/server/**/*',
   };
 
   switch (project.type) {
@@ -31,6 +33,7 @@ export function genTscPaths(api: any): ITscPaths {
       return Object.assign(paths, {
         appFile: 'src/app.module',
         buildDir: 'dist',
+        files: 'src/**/*',
       });
   }
 }

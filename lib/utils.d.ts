@@ -7,6 +7,7 @@ export declare type ITscPaths = {
     appFile: string;
     devDir: string;
     buildDir: string;
+    files: string;
 };
 /**
  * 根据项目类型生产匹配的目录

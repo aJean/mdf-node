@@ -20,16 +20,16 @@ export default class ClientRunner {
     this.api = opts.api;
   }
 
-  async run() {
+  run() {
     const api = this.api;
     const { paths } = api;
-    const spinner = new Spinner({ text: 'generate mdf', graph: 'dots' }).start();
+    const spinner = new Spinner({ text: 'generate mdf\n', graph: 'dots' }).start();
 
     api.makeDir(paths.absTmpPath);
-    await this.generateCode();
-
-    spinner.succeed({ text: 'generate success' });
-    this.startServer();
+    return api.codeGenerate().then(() => {
+      spinner.succeed({ text: 'generate success' });
+      this.startServer();
+    });
   }
 
   startServer() {
@@ -111,15 +111,9 @@ export default class ClientRunner {
     // 变化比较快，没必要提示了
     const unwatchApp = watch({
       path: `${api.cwd}/${genAppPath(api)}`,
-      onChange: () => this.generateCode(),
+      onChange: () => api.codeGenerate(),
     });
 
     unwatchs.push(unwatchConfig, unwatchApp);
-  }
-
-  generateCode(): Promise<any> {
-    const api = this.api;
-
-    return api.invokePlugin({ key: 'codeGenerate', type: api.PluginType.event });
   }
 }

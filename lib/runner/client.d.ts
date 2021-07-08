@@ -10,11 +10,10 @@ export default class ClientRunner {
     api: IApi;
     configPath?: string;
     constructor(opts: ClientRunnerOpts);
-    run(): Promise<void>;
+    run(): any;
     startServer(): void;
     /**
      * 监控变化
      */
     initWatchers(server: any): void;
-    generateCode(): Promise<any>;
 }

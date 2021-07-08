@@ -10,7 +10,7 @@ export default async function (api: IApi) {
   const config = api.getConfig();
 
   api.makeDir(paths.absTmpPath);
-  await generateCode(api);
+  await api.codeGenerate();
 
   // instance
   const bundler = new Bundler(config);
@@ -47,8 +47,4 @@ export default async function (api: IApi) {
   });
 
   return bundler.build();
-}
-
-function generateCode(api: IApi): Promise<any> {
-  return api.invokePlugin({ key: 'codeGenerate', type: api.PluginType.event });
 }

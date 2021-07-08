@@ -1,4 +1,6 @@
-import { Core, Express, WinstonModule, utilities } from '@mdfjs/node';
+import { Core, Express, WinstonModule, Winston, utilities, Logger } from '@mdfjs/node';
+import { ErrorFilter, HttpInterceptor, GuardMiddleware, SharedModule } from '@mdfjs/node';
+import { Global, Module, NestModule, MiddlewareConsumer } from '@mdfjs/node';
 {{#useLogger}}
 import { Winston, Helper } from '@mdfjs/node';
 {{/useLogger}}
@@ -6,12 +8,46 @@ import AppModule from '../{{{ appFile }}}';
 
 /**
  * @file 框架生产，禁止修改
- * @todo 待处理：中间件、工具库、监控等
  */
+
+@Global()
+@Module({
+  imports: [SharedModule, ...AppModule.imports],
+  providers: [
+    Logger,
+    {
+      provide: Core.APP_INTERCEPTOR,
+      useClass: HttpInterceptor,
+    },
+    {
+      provide: Core.APP_FILTER,
+      useClass: ErrorFilter,
+    },
+    ...AppModule.providers,
+  ],
+  exports: [SharedModule],
+})
+export default class MdfModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(GuardMiddleware).forRoutes('*');
+    AppModule.middlewares.forEach((middleware: any) => consumer.apply(middleware.apply).forRoutes(middleware.path));
+  }
+}
 
 const opts: any = { cors: true };
 {{#useLogger}}
-  const { genHttpFormat, TIMESTAMP_OPTS } = Helper;
+  const TIMESTAMP_OPTS = { format: 'YYYY-MM-DD HH:mm:ss' };
+  /**
+   * 格式化日志输出
+   */
+  function genHttpFormat(): Winston.Logform.Format {
+    return Winston.format.printf((debug) => {
+      const { timestamp, level, message, ...args } = debug;
+
+      const ts = timestamp.slice(0, 19).replace('T', ' ');
+      return `${ts} [${level}] - ${message}`;
+    });
+  }
 
   opts.logger = WinstonModule.createLogger({
     transports: [
@@ -37,7 +73,7 @@ const opts: any = { cors: true };
 {{/useLogger}}
 
 async function bootstrap() {
-  const app = await Core.NestFactory.create<Express.NestExpressApplication>(AppModule, opts);
+  const app = await Core.NestFactory.create<Express.NestExpressApplication>(MdfModule, opts);
 
   // render
   app.setViewEngine('hbs');
