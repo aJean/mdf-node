@@ -1,8 +1,8 @@
 import { from, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import Helper from './helper';
 import { MongoClient } from 'mongodb';
 import { SharedService } from './shared.module';
+import Helper from './helper';
 
 /**
  * @file app service
@@ -30,14 +30,14 @@ export abstract class AppService {
   }
 
   /**
-   * 环境变量
+   * 获取环境变量
    */
   getEnv(key: string) {
     return this.shared.getConfig(key);
   }
 
   /**
-   * 获取 mongo connect
+   * 连接 mongodb
    */
   getMongo() {
     const host = `mongodb://${this.getEnv('MONGO_HOST')}`;
@@ -45,16 +45,23 @@ export abstract class AppService {
   }
 
   /**
+   * 生产 rpc 请求 host，可用于调试
+   */
+  genRpcHost(path: string) {
+    const type = this.type.toUpperCase();
+    return `${this.getEnv(`API_HOST_${type}`)}/${path}`;
+  }
+
+  /**
    * 发送 rpc 请求, 熔断、限流都放到这里处理
    */
   rpc(opts: Opts_Rpc): Observable<any> {
     const http = this.shared.http();
-    const type = this.type.toUpperCase();
     const { path, method, data, headers } = opts;
-    const url = `${this.getEnv(`API_HOST_${type}`)}/${path}`;
+    const host = this.genRpcHost(path);
     const config = { headers: extractKeys(headers) };
 
-    return method === 'POST' ? http.post(url, data, config) : http.get(url, config);
+    return method === 'POST' ? http.post(host, data, config) : http.get(host, config);
   }
 
   /**

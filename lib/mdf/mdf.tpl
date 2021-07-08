@@ -1,4 +1,4 @@
-import { Core, Express, WinstonModule, Winston, utilities, Logger } from '@mdfjs/node';
+import { Core, Express, WinstonModule, utilities, Logger } from '@mdfjs/node';
 import { ErrorFilter, HttpInterceptor, GuardMiddleware, SharedModule } from '@mdfjs/node';
 import { Global, Module, NestModule, MiddlewareConsumer } from '@mdfjs/node';
 {{#useLogger}}

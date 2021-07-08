@@ -21,13 +21,17 @@ export declare abstract class AppService {
     type: string;
     constructor(type: string, shared: SharedService);
     /**
-     * 环境变量
+     * 获取环境变量
      */
     getEnv(key: string): any;
     /**
-     * 获取 mongo connect
+     * 连接 mongodb
      */
     getMongo(): Promise<MongoClient>;
+    /**
+     * 生产 rpc 请求 host，可用于调试
+     */
+    genRpcHost(path: string): string;
     /**
      * 发送 rpc 请求, 熔断、限流都放到这里处理
      */
