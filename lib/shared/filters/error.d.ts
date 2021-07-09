@@ -7,11 +7,11 @@ export default class ErrorFilter extends BaseExceptionFilter {
     private readonly logger;
     constructor(logger: LoggerService);
     /**
-     * just like timeout
+     * http 异常
      */
-    catch(error: Error, host: ArgumentsHost): void;
+    catch(err: any, host: ArgumentsHost): void;
     /**
      * 输出异常日志
      */
-    doLog(request: any, error: Error): void;
+    pipeLog(request: any, error: Error): void;
 }

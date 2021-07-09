@@ -115,7 +115,7 @@ export abstract class AppService {
 /**
  * 提取 header 中的透传字段
  */
-function extractKeys(headers = {}, keys: Array<string> = Helper.getHeaderKeys()) {
+function extractKeys(headers = {}, keys: Array<string> = Helper.getCustomHeaders()) {
   const ret = {};
 
   if (Helper.getProcessEnv() === 'dev') {

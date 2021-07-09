@@ -1,4 +1,5 @@
 import jaeger from 'jaeger-client';
+import { Request, Response } from 'express';
 /**
  * @file 共享包 helper
  */
@@ -11,20 +12,40 @@ declare type AppModuleType = {
     providers?: any[];
     exports?: any[];
     middlewares?: Middlewares[];
+    handleHttpError?: (err: Error, req: Request, res: Response) => void;
+    handleException?: (err: Error) => boolean;
+};
+declare type RedisType = {
+    port?: number;
+    family: number;
+    db: number;
 };
 declare const _default: {
+    appModule: {
+        imports: any[];
+        providers: any[];
+        exports: any[];
+        middlewares: any[];
+    };
+    customHeaders: string[];
+    /**
+     * 注入环境信息，如果使用 tsc 编译需要自己处理 define
+     */
     getProcessEnv(): string;
     /**
-     * header 中约定的字段
+     * header 透传字段
      */
-    getHeaderKeys(): string[];
+    getCustomHeaders(): any;
+    /**
+     * 补充 header 透传字段
+     */
+    addCustomHeaders(...keys: string[]): any;
     /**
      * 从 headers 里提取 log 信息
      */
     getLogTokens(headers: any): string;
     /**
      * 运行时根据环境变量组合 env，提供给 ConfigModule
-     * TODO: env 相关应该在编译时处理，ConfigModule 只负责分发配置
      */
     genEnvFiles(): string[];
     /**
@@ -38,15 +59,17 @@ declare const _default: {
     /**
      * 要使用 redis 请先安装 ioredis
      */
-    getRedis(): any;
+    getRedis(opts: RedisType): {
+        redis: any;
+        err: string;
+    };
     /**
-     * 创建 app moudle
+     * 创建 app module
      */
-    createAppModule(module: AppModuleType): {
-        imports: any[];
-        providers: any[];
-        exports: any[];
-        middlewares: any[];
-    } & AppModuleType;
+    createAppModule(target: AppModuleType): any;
+    /**
+     * 内部使用
+     */
+    getAppModule(): any;
 };
 export default _default;

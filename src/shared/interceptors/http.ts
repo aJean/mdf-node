@@ -57,7 +57,7 @@ export default class HttpInterceptor implements NestInterceptor {
               req['__traceSpan__'] = null;
             }
 
-            this.doLog(ctx.getRequest());
+            this.pipeLog(ctx.getRequest());
             return Object.assign(data, { from: 'mdf-node' });
         }
       }),
@@ -67,7 +67,7 @@ export default class HttpInterceptor implements NestInterceptor {
   /**
    * 请求日志
    */
-  doLog(req: Request): void {
+  pipeLog(req: Request): void {
     const { url, headers, method, body } = req;
     const tokens = Helper.getLogTokens(headers);
 

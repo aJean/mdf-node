@@ -1,5 +1,7 @@
-import { ServiceUnavailableException } from '@nestjs/common';
 import jaeger from 'jaeger-client';
+import { ServiceUnavailableException } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { getUserPkg } from '@mdfjs/utils';
 
 /**
  * @file 共享包 helper
@@ -15,25 +17,49 @@ type AppModuleType = {
   providers?: any[];
   exports?: any[];
   middlewares?: Middlewares[];
+  handleHttpError?: (err: Error, req: Request, res: Response) => void;
+  handleException?: (err: Error) => boolean;
+};
+
+type RedisType = {
+  port?: number;
+  family: number;
+  db: number;
 };
 
 export default {
+  // 应用模块装载记录
+  appModule: { imports: [], providers: [], exports: [], middlewares: [] },
+  // 自定义 http headers
+  customHeaders: ['authorization', 'taltoken', 'user-agent', 'clientid'],
+
+  /**
+   * 注入环境信息，如果使用 tsc 编译需要自己处理 define
+   */
   getProcessEnv() {
     return process.env.MDF_ENV;
   },
 
   /**
-   * header 中约定的字段
+   * header 透传字段
    */
-  getHeaderKeys() {
-    return ['authorization', 'taltoken', 'user-agent', 'clientid'].slice(0);
+  getCustomHeaders() {
+    return this.customHeaders.slice(0);
+  },
+
+  /**
+   * 补充 header 透传字段
+   */
+  addCustomHeaders(...keys: string[]) {
+    this.customHeaders.push(...keys);
+    return this.getCustomHeaders();
   },
 
   /**
    * 从 headers 里提取 log 信息
    */
   getLogTokens(headers: any) {
-    const tokens = this.getHeaderKeys()
+    const tokens = this.getCustomHeaders()
       .map((key: string) => headers[key] || 'null')
       .join('-');
     return `[${tokens}]`;
@@ -41,7 +67,6 @@ export default {
 
   /**
    * 运行时根据环境变量组合 env，提供给 ConfigModule
-   * TODO: env 相关应该在编译时处理，ConfigModule 只负责分发配置
    */
   genEnvFiles() {
     const env = this.getProcessEnv();
@@ -69,7 +94,7 @@ export default {
       },
       {
         tags: {
-          '101-bff.version': '0.0.1',
+          '101-bff.version': getUserPkg(process.cwd(), 'version') || '0.0.0',
         },
       },
     );
@@ -78,16 +103,12 @@ export default {
   /**
    * 要使用 redis 请先安装 ioredis
    */
-  getRedis() {
+  getRedis(opts: RedisType) {
+    const { port = 6379, family, db } = opts;
+    // @ts-ignore
+    const host = this.configService.get('REDIS_HOST');
     const ioredis = require('ioredis');
-    const redis = new ioredis({
-      port: 6379,
-      // @ts-ignore
-      host: this.configService.get('REDIS_HOST'),
-      family: 4,
-      db: 4,
-      lazyConnect: true,
-    });
+    const redis = new ioredis({ port, host, family, db, lazyConnect: true });
 
     redis.on('error', (e: any) => {
       redis.disconnect();
@@ -97,13 +118,23 @@ export default {
       throw new ServiceUnavailableException(`redis ${e.message} ${error.stack}`);
     });
 
-    return redis;
+    return { redis, err: 'not support yet' };
   },
 
   /**
-   * 创建 app moudle
+   * 创建 app module
    */
-  createAppModule(module: AppModuleType) {
-    return Object.assign({ imports: [], providers: [], exports: [], middlewares: [] }, module);
+  createAppModule(target: AppModuleType) {
+    const module = Object.assign(this.appModule, target);
+    this.appModule = module;
+
+    return module;
+  },
+
+  /**
+   * 内部使用
+   */
+  getAppModule() {
+    return this.appModule;
   },
 };

@@ -20,29 +20,41 @@ export default class ErrorFilter extends BaseExceptionFilter {
   constructor(@Inject(Logger) private readonly logger: LoggerService) {
     super();
 
+    const module = Helper.getAppModule();
+    // 应用异常
     process.on('uncaughtException', (e) => {
+      const isHttpExcept = e instanceof HttpException;
+      const handleException = module.handleException;
+
       this.logger.error(`${e}`);
-      // 不是自定义异常就让进程正常退出
-      if (!(e instanceof HttpException)) {
+      // 用户处理函数返回 true
+      if (handleException && handleException(e)) {
+        process.exit(1);
+      }
+      // 非 http 异常，比如 redis ServiceUnavailableException 就可以不用退出
+      if (!handleException && isHttpExcept) {
         process.exit(1);
       }
     });
   }
 
   /**
-   * just like timeout
+   * http 异常
    */
-  catch(error: Error, host: ArgumentsHost): void {
-    super.catch(error, host);
-
+  catch(err: any, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
-    this.doLog(ctx.getRequest(), error);
+    const { handleHttpError } = Helper.getAppModule();
+
+    handleHttpError
+      ? handleHttpError(err, ctx.getRequest(), ctx.getResponse())
+      : super.catch(err, host);
+    this.pipeLog(ctx.getRequest(), err);
   }
 
   /**
    * 输出异常日志
    */
-  doLog(request: any, error: Error): void {
+  pipeLog(request: any, error: Error): void {
     const { url, headers, method, body } = request;
     const tokens = Helper.getLogTokens(headers);
 
