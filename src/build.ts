@@ -30,11 +30,13 @@ export default function (api: IApi) {
 
           await RollupBuilder(api);
           spinner.succeed({ text: 'build success' });
-          process.exit(0);
+          break;
         default:
           await RollupBuilder(api);
           spinner.succeed({ text: 'build success' });
       }
+
+      process.exit(0);
     },
   });
 }

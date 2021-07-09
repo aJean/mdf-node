@@ -1,4 +1,5 @@
 import { IApi } from '@mdfjs/types';
+import { rmrf } from '@mdfjs/utils';
 import TscRunner from './runner/tsc';
 import ClientRunner from './runner/client';
 import createNestEntry from './mdf/mdf';
@@ -16,6 +17,7 @@ export default function (api: IApi) {
     async fn(args) {
       let runner;
 
+      rmrf(api.paths.absTmpPath);
       // 启动 server 部分
       if (args.node) {
         createNestEntry(api);

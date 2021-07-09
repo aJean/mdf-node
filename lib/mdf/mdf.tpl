@@ -2,7 +2,7 @@ import { Core, Express, WinstonModule, utilities, Logger } from '@mdfjs/node';
 import { ErrorFilter, HttpInterceptor, GuardMiddleware, SharedModule } from '@mdfjs/node';
 import { Global, Module, NestModule, MiddlewareConsumer } from '@mdfjs/node';
 {{#useLogger}}
-import { Winston, Helper } from '@mdfjs/node';
+import { Winston } from '@mdfjs/node';
 {{/useLogger}}
 import AppModule from '../{{{ appFile }}}';
 
@@ -27,7 +27,7 @@ import AppModule from '../{{{ appFile }}}';
   ],
   exports: [SharedModule],
 })
-export default class MdfModule implements NestModule {
+class MdfModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer.apply(GuardMiddleware).forRoutes('*');
     AppModule.middlewares.forEach((middleware: any) => consumer.apply(middleware.apply).forRoutes(middleware.path));
@@ -49,27 +49,32 @@ const opts: any = { cors: true };
     });
   }
 
-  opts.logger = WinstonModule.createLogger({
-    transports: [
-      new Winston.transports.Console({
-        format: Winston.format.combine(Winston.format.timestamp(), utilities.format.nestLike()),
-      }),
-      new Winston.transports.DailyRotateFile({
-        datePattern: 'YYYY-MM-DD-HH',
-        filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.log',
-        level: 'info',
-        maxFiles: '14d',
-        format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
-      }),
-      new Winston.transports.DailyRotateFile({
-        datePattern: 'YYYY-MM-DD-HH',
-        filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%_error.log',
-        level: 'error',
-        maxFiles: '14d',
-        format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
-      }),
-    ]
-  });
+  try {
+    opts.logger = WinstonModule.createLogger({
+      transports: [
+        new Winston.transports.Console({
+          format: Winston.format.combine(Winston.format.timestamp(), utilities.format.nestLike()),
+        }),
+        new Winston.transports.DailyRotateFile({
+          datePattern: 'YYYY-MM-DD-HH',
+          filename: '{{{ envs.NODE_LOG_INFO_PATH }}}/%DATE%.log',
+          level: 'info',
+          maxFiles: '14d',
+          format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
+        }),
+        new Winston.transports.DailyRotateFile({
+          datePattern: 'YYYY-MM-DD-HH',
+          filename: '{{{ envs.NODE_LOG_ERR_PATH }}}/%DATE%_error.log',
+          level: 'error',
+          maxFiles: '14d',
+          format: Winston.format.combine(Winston.format.timestamp(TIMESTAMP_OPTS), genHttpFormat()),
+        }),
+      ]
+    });
+  } catch(e) {
+    // 日志目录初始化异常
+    Logger.error(e.message);
+  }
 {{/useLogger}}
 
 async function bootstrap() {
