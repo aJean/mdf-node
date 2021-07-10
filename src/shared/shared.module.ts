@@ -35,6 +35,9 @@ export type MdfModuleOptions = {
   exports: [],
 })
 export class SharedModule {
+  /**
+   * 必须使用动态导入，否则无法拿到正确的 env 信息
+   */
   static forRoot(opts: MdfModuleOptions = {}): any {
     const { timeout = 15000, serve } = opts;
     const imports = [
