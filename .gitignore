@@ -8,3 +8,6 @@
 .DS_Store
 
 **/fixtures/**/dist
+
+npm-debug.log*
+yarn-error.log

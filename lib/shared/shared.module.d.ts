@@ -12,10 +12,9 @@ export declare class SharedService {
     getConfig(key: string): any;
 }
 export declare type MdfModuleOptions = {
-    timeout: number;
-    envs: string[];
+    timeout?: number;
     serve?: any;
 };
 export declare class SharedModule {
-    static forRoot(opts: MdfModuleOptions): any;
+    static forRoot(opts?: MdfModuleOptions): any;
 }

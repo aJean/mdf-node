@@ -28,6 +28,7 @@ type RedisType = {
 };
 
 export default {
+  env: 'prod',
   // 应用模块装载记录
   appModule: { imports: [], providers: [], exports: [], middlewares: [] },
   // 自定义 http headers
@@ -36,8 +37,12 @@ export default {
   /**
    * 注入环境信息，如果使用 tsc 编译需要自己处理 define
    */
+  setProcessEnv(env: string) {
+    this.env = env;
+  },
+
   getProcessEnv() {
-    return process.env.MDF_ENV;
+    return this.env;
   },
 
   /**
@@ -70,6 +75,7 @@ export default {
    */
   genEnvFiles() {
     const env = this.getProcessEnv();
+    console.log('qusibaqusibaqusiba' + env);
     return ['config/.env.local', `config/.env.${env}`, 'config/.env'];
   },
 

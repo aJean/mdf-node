@@ -21,6 +21,7 @@ declare type RedisType = {
     db: number;
 };
 declare const _default: {
+    env: string;
     appModule: {
         imports: any[];
         providers: any[];
@@ -31,7 +32,8 @@ declare const _default: {
     /**
      * 注入环境信息，如果使用 tsc 编译需要自己处理 define
      */
-    getProcessEnv(): string;
+    setProcessEnv(env: string): void;
+    getProcessEnv(): any;
     /**
      * header 透传字段
      */

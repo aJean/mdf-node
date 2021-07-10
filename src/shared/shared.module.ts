@@ -25,25 +25,21 @@ export class SharedService {
 }
 
 export type MdfModuleOptions = {
-  timeout: number;
-  envs: string[];
+  timeout?: number;
   serve?: any;
 };
 
 @Module({
-  imports: [
-    HttpModule.register({ timeout: 15000 }),
-    ConfigModule.forRoot({ envFilePath: Helper.genEnvFiles(), isGlobal: true }),
-  ],
-  providers: [SharedService],
-  exports: [HttpModule, SharedService],
+  imports: [],
+  providers: [],
+  exports: [],
 })
 export class SharedModule {
-  static forRoot(opts: MdfModuleOptions): any {
-    const { timeout, serve, envs } = opts;
+  static forRoot(opts: MdfModuleOptions = {}): any {
+    const { timeout = 15000, serve } = opts;
     const imports = [
       HttpModule.register({ timeout }),
-      ConfigModule.forRoot({ envFilePath: envs, isGlobal: true }),
+      ConfigModule.forRoot({ envFilePath: Helper.genEnvFiles(), isGlobal: true }),
     ];
 
     if (serve) {
@@ -56,7 +52,7 @@ export class SharedModule {
     }
 
     return {
-      ngModule: SharedModule,
+      module: SharedModule,
       imports,
       providers: [SharedService],
       exports: [HttpModule, SharedService],
