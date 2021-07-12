@@ -31,7 +31,7 @@ export default class HttpInterceptor implements NestInterceptor {
         const req = ctx.getRequest();
         const res = ctx.getResponse();
         const data = result.data;
-
+        
         this.pipeLog(ctx.getRequest());
         switch (result._type) {
           // 模板渲染
