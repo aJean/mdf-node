@@ -22,6 +22,13 @@ export type Http_Rpc = {
   config?: any;
 };
 
+export type Mock_Rpc = {
+  _type?: string;
+  data?: any;
+  code?: number;
+  msg?: string;
+};
+
 export abstract class AppService {
   type: string;
 
@@ -77,15 +84,16 @@ export abstract class AppService {
   /**
    * 模拟返回 observable
    */
-  pipeMock(data: any, status?: number, msg: string = '') {
-    return from([{ data: { code: status === undefined ? 200 : status, msg, data } }]);
+  pipeMock(opts: Mock_Rpc = {}) {
+    const { _type, data, code = 200, msg = '' } = opts;
+    return from([{ _type, data: { code, msg, data } }]);
   }
 
   /**
-   * 直接返回 data
+   * 渲染模板数据
    */
-  pipeData(data: any) {
-    return { _type: 'data', ...data };
+  pipeHbs(data: any) {
+    return { _type: 'hbs', ...data };
   }
 
   /**
@@ -93,8 +101,7 @@ export abstract class AppService {
    */
   pipeImage() {
     return map((res: any) => {
-      const url = res.config.url;
-      const ext = url.split('.').pop() || 'png';
+      const ext = extractExt(res.config.url);
 
       return {
         _type: 'img',
@@ -107,8 +114,10 @@ export abstract class AppService {
   /**
    * 处理异常
    */
-  pipeError() {
-    return catchError((e: any) => this.pipeMock(null, 500, e.message));
+  pipeError(_type?: string) {
+    return catchError((e: any) => {
+      return this.pipeMock({ _type, code: 500, msg: e.message });
+    });
   }
 }
 
@@ -131,4 +140,16 @@ function extractKeys(headers = {}, keys: Array<string> = Helper.getCustomHeaders
   });
 
   return ret;
+}
+
+/**
+ * 从文件中提取 ext 类型
+ */
+function extractExt(file: string) {
+  try {
+    file = file.split('.').pop();
+    return file.replace(/\?.*$/, '');
+  } catch (e) {
+    return 'png';
+  }
 }

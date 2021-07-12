@@ -32,12 +32,18 @@ export default class HttpInterceptor implements NestInterceptor {
         const res = ctx.getResponse();
         const data = result.data;
 
+        this.pipeLog(ctx.getRequest());
         switch (result._type) {
-          // 非标准请求
-          case 'data':
-            return res;
+          // 模板渲染
+          case 'hbs':
+            return result;
           // 静态资源 cors 中转
           case 'img':
+            // 图片下载失败
+            if (!(data instanceof Buffer)) {
+              return res.end(null);
+            }
+
             const stream = new Readable();
             stream.push(data);
             stream.push(null);
@@ -50,14 +56,13 @@ export default class HttpInterceptor implements NestInterceptor {
             return stream.pipe(res);
           // 标准 mdf server 接口
           default:
-            res.header('Content-Type', 'application/json');
+            res.set({ 'Content-Type': 'application/json' });
 
             if (req['__traceSpan__']) {
               req['__traceSpan__'].finish();
               req['__traceSpan__'] = null;
             }
 
-            this.pipeLog(ctx.getRequest());
             return Object.assign(data, { from: 'mdf-node' });
         }
       }),

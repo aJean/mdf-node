@@ -16,6 +16,12 @@ export declare type Http_Rpc = {
     data?: any;
     config?: any;
 };
+export declare type Mock_Rpc = {
+    _type?: string;
+    data?: any;
+    code?: number;
+    msg?: string;
+};
 export declare abstract class AppService {
     protected shared: SharedService;
     type: string;
@@ -43,7 +49,8 @@ export declare abstract class AppService {
     /**
      * 模拟返回 observable
      */
-    pipeMock(data: any, status?: number, msg?: string): Observable<{
+    pipeMock(opts?: Mock_Rpc): Observable<{
+        _type: string;
         data: {
             code: number;
             msg: string;
@@ -51,9 +58,9 @@ export declare abstract class AppService {
         };
     }>;
     /**
-     * 直接返回 data
+     * 渲染模板数据
      */
-    pipeData(data: any): any;
+    pipeHbs(data: any): any;
     /**
      * 处理 image 流
      */
@@ -65,5 +72,5 @@ export declare abstract class AppService {
     /**
      * 处理异常
      */
-    pipeError(): import("rxjs").OperatorFunction<unknown, unknown>;
+    pipeError(_type?: string): import("rxjs").OperatorFunction<unknown, unknown>;
 }
