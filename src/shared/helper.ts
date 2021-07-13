@@ -75,7 +75,6 @@ export default {
    */
   genEnvFiles() {
     const env = this.getProcessEnv();
-    console.log('qusibaqusibaqusiba' + env);
     return ['config/.env.local', `config/.env.${env}`, 'config/.env'];
   },
 
