@@ -89,7 +89,9 @@ async function bootstrap() {
   app.disable('x-powered-by');
   await app.listen({{{ port }}});
 
-  console.log('\napp server is listening at localhost:{{{ port }}}');
+  {{#outputs}}
+  console.log('{{ msg }}');
+  {{/outputs}}
 }
 
 bootstrap();

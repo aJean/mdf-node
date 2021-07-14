@@ -66,7 +66,7 @@ export abstract class AppService {
     const http = this.shared.http();
     const { path, method, data, headers } = opts;
     const host = this.genRpcHost(path);
-    const config = { headers: extractKeys(headers) };
+    const config = genAxiosConfig(headers);
 
     return method === 'POST' ? http.post(host, data, config) : http.get(host, config);
   }
@@ -122,24 +122,24 @@ export abstract class AppService {
 }
 
 /**
- * 提取 header 中的透传字段
+ * 提取 header 中的透传字段 + content-type
  */
-function extractKeys(headers = {}, keys: Array<string> = Helper.getCustomHeaders()) {
-  const ret = {};
+function genAxiosConfig(data = {}, preset: Array<string> = Helper.getCustomHeaders()) {
+  const headers = {};
 
-  if (Helper.getProcessEnv() === 'dev') {
-    keys.push('backdoor', 'talid', 'userid');
-  }
-
-  keys.forEach((key: string) => {
-    const val = headers[key];
+  preset.forEach((key: string) => {
+    const val = data[key];
 
     if (val) {
-      ret[key] = headers[key];
+      headers[key] = data[key];
     }
   });
 
-  return ret;
+  if (data['content-type']) {
+    headers['content-type'] = data['content-type'];
+  }
+
+  return { headers };
 }
 
 /**
