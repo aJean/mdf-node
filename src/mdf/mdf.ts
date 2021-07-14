@@ -24,11 +24,7 @@ export default function (api: IApi) {
 }
 
 function genOutputs(port: string) {
-  const ip = require('internal-ip');
-
   return [
-    { msg: '\\r' },
-    { msg: ` - app-server is runing at localhost:${port}` },
-    { msg: ` - app-server is runing at ${ip.v4.sync()}:${port}` },
+    { msg: `\\napp-server is runing at localhost:${port}` },
   ];
 }
