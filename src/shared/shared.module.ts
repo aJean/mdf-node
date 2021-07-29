@@ -41,8 +41,15 @@ export class SharedModule {
   static forRoot(opts: MdfModuleOptions = {}): any {
     const { timeout = 15000, serve } = opts;
     const imports = [
-      HttpModule.register({ timeout }),
-      ConfigModule.forRoot({ envFilePath: Helper.genEnvFiles(), isGlobal: true }),
+      HttpModule.register({
+        timeout,
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+      }),
+      ConfigModule.forRoot({
+        envFilePath: Helper.genEnvFiles(),
+        isGlobal: true,
+      }),
     ];
 
     if (serve) {
