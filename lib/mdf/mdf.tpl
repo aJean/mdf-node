@@ -1,8 +1,8 @@
-import { Core, Express, WinstonModule, utilities, Logger, Helper } from '@mdfjs/node';
+import { Core, Express, Logger, Helper } from '@mdfjs/node';
 import { ErrorFilter, HttpInterceptor, GuardMiddleware, SharedModule } from '@mdfjs/node';
 import { Global, Module, NestModule, MiddlewareConsumer } from '@mdfjs/node';
 {{#uselog}}
-import { Winston } from '@mdfjs/node';
+import { Winston, WinstonModule, utilities } from '@mdfjs/node';
 {{/uselog}}
 import AppModule from '../{{{ appFile }}}';
 
@@ -14,7 +14,7 @@ Helper.setProcessEnv(process.env.MDF_ENV!);
 
 @Global()
 @Module({
-  imports: [SharedModule.forRoot(JSON.stringify({{ shared }})), ...AppModule.imports],
+  imports: [SharedModule.forRoot({{{ shared }}}), ...AppModule.imports],
   providers: [
     Logger,
     {

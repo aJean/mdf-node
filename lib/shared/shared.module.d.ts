@@ -13,6 +13,7 @@ export declare class SharedService {
 }
 export declare type MdfModuleOptions = {
     timeout?: number;
+    uselog?: boolean;
     serve?: any;
 };
 export declare class SharedModule {

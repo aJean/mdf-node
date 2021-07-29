@@ -26,6 +26,7 @@ export class SharedService {
 
 export type MdfModuleOptions = {
   timeout?: number;
+  uselog?: boolean;
   serve?: any;
 };
 

@@ -8,15 +8,15 @@ import { genTscPaths } from '../utils';
 
 export default function (api: IApi) {
   const { paths, Mustache } = api;
-  const { project, envs } = api.getConfig();
-  const { port = 3001, timeout, uselog } = project;
+  const { project, node, envs } = api.getConfig();
+  const { port = 3001 } = project;
 
   // 生成 mdf-nest.ts code
   const content = Mustache.render(api.getFile(`${__dirname}/mdf.tpl`), {
     port,
     envs,
-    shared: { timeout },
-    uselog: uselog !== false,
+    shared: JSON.stringify(node),
+    uselog: node.uselog !== false,
     outputs: genOutputs(port),
     appFile: genTscPaths(api).appFile,
   });
