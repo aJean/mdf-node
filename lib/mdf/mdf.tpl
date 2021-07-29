@@ -1,9 +1,9 @@
 import { Core, Express, WinstonModule, utilities, Logger, Helper } from '@mdfjs/node';
 import { ErrorFilter, HttpInterceptor, GuardMiddleware, SharedModule } from '@mdfjs/node';
 import { Global, Module, NestModule, MiddlewareConsumer } from '@mdfjs/node';
-{{#useLogger}}
+{{#uselog}}
 import { Winston } from '@mdfjs/node';
-{{/useLogger}}
+{{/uselog}}
 import AppModule from '../{{{ appFile }}}';
 
 /**
@@ -14,7 +14,7 @@ Helper.setProcessEnv(process.env.MDF_ENV!);
 
 @Global()
 @Module({
-  imports: [SharedModule.forRoot(), ...AppModule.imports],
+  imports: [SharedModule.forRoot(JSON.stringify({{ shared }})), ...AppModule.imports],
   providers: [
     Logger,
     {
@@ -37,7 +37,7 @@ class MdfModule implements NestModule {
 }
 
 const opts: any = { cors: true };
-{{#useLogger}}
+{{#uselog}}
   const TIMESTAMP_OPTS = { format: 'YYYY-MM-DD HH:mm:ss' };
   /**
    * 格式化日志输出
@@ -77,7 +77,7 @@ const opts: any = { cors: true };
     // 日志目录初始化异常
     Logger.error(e.message);
   }
-{{/useLogger}}
+{{/uselog}}
 
 async function bootstrap() {
   const app = await Core.NestFactory.create<Express.NestExpressApplication>(MdfModule, opts);
