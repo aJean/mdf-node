@@ -82,7 +82,7 @@ export abstract class AppService {
   }
 
   /**
-   * 模拟返回 observable
+   * @observer 模拟返回 observable
    */
   pipeMock(opts: Mock_Rpc = {}) {
     const { _type, data, code = 200, msg = '' } = opts;
@@ -90,25 +90,32 @@ export abstract class AppService {
   }
 
   /**
-   * 渲染模板数据
-   */
-  pipeHbs(data: any) {
-    return { _type: 'hbs', ...data };
-  }
-
-  /**
-   * 处理 image 流
+   * @observer 处理 image 流
    */
   pipeImage() {
     return map((res: any) => {
       const ext = extractExt(res.config.url);
 
       return {
-        _type: 'img',
+        _type: 'pic',
         data: res.data,
         mime: `image/${ext}`,
       };
     });
+  }
+
+  /**
+   * @promise 渲染模板数据
+   */
+  pipeHbs(data: any) {
+    return { _type: 'hbs', ...data };
+  }
+
+  /**
+   * @promise promethus 接口
+   */
+  pipeProm(data: any) {
+    return { _type: 'prom', data };
   }
 
   /**

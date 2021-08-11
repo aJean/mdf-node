@@ -37,8 +37,12 @@ export default class HttpInterceptor implements NestInterceptor {
           // 模板渲染
           case 'hbs':
             return result;
+          // promethus http exporter
+          case 'prom':
+            res.set({'Content-Type': 'text/plain'});
+            return result.data;
           // 静态资源 cors 中转
-          case 'img':
+          case 'pic':
             // 图片下载失败
             if (!(data instanceof Buffer)) {
               return res.end(null);

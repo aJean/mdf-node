@@ -47,7 +47,7 @@ export declare abstract class AppService {
      */
     send(opts: Http_Rpc): Observable<import("axios").AxiosResponse<any>>;
     /**
-     * 模拟返回 observable
+     * @observer 模拟返回 observable
      */
     pipeMock(opts?: Mock_Rpc): Observable<{
         _type: string;
@@ -58,17 +58,24 @@ export declare abstract class AppService {
         };
     }>;
     /**
-     * 渲染模板数据
-     */
-    pipeHbs(data: any): any;
-    /**
-     * 处理 image 流
+     * @observer 处理 image 流
      */
     pipeImage(): import("rxjs").OperatorFunction<any, {
         _type: string;
         data: any;
         mime: string;
     }>;
+    /**
+     * @promise 渲染模板数据
+     */
+    pipeHbs(data: any): any;
+    /**
+     * @promise promethus 接口
+     */
+    pipeProm(data: any): {
+        _type: string;
+        data: any;
+    };
     /**
      * 处理异常
      */
