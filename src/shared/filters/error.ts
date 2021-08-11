@@ -5,7 +5,7 @@ import {
   Inject,
   Logger,
   LoggerService,
-  HttpException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import Helper from '../helper';
@@ -23,16 +23,12 @@ export default class ErrorFilter extends BaseExceptionFilter {
     const module = Helper.getAppModule();
     // 应用异常
     process.on('uncaughtException', (e) => {
-      const isHttpExcept = e instanceof HttpException;
+      const isSueExcept = e instanceof ServiceUnavailableException;
       const handleException = module.handleException;
 
       this.logger.error(`${e}`);
       // 用户处理函数返回 true
-      if (handleException && handleException(e)) {
-        process.exit(1);
-      }
-      // 非 http 异常，比如 redis ServiceUnavailableException 就可以不用退出
-      if (!handleException && isHttpExcept) {
+      if ((handleException && handleException(e)) || !isSueExcept) {
         process.exit(1);
       }
     });
