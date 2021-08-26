@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { MongoClient } from 'mongodb';
-import { SharedService } from './shared.module';
 /**
  * @file app service
  */
@@ -23,9 +22,9 @@ export declare type Mock_Rpc = {
     msg?: string;
 };
 export declare abstract class AppService {
-    protected shared: SharedService;
+    private readonly shared;
     type: string;
-    constructor(type: string, shared: SharedService);
+    constructor(type: string);
     /**
      * 获取环境变量
      */

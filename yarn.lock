@@ -1456,25 +1456,6 @@
     webpack-dev-middleware "4.0.2"
     webpackbar "5.0.0-3"
 
-"@mdfjs/core@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.2.0.tgz#30da59ab9553b49593bf0c8fbc633af06a364a0d"
-  integrity sha512-5Y8MxbKxqrQ048okzhP2/PQi/nD/VELhuU92ZldJYT0uL2AEAWbb5CsqeowybQ4n/qczm3YlWiyrufSDsgPu4A==
-  dependencies:
-    "@mdfjs/records" "^0.2.0"
-    "@mdfjs/runtime" "^0.2.0"
-    "@mdfjs/utils" "^0.2.0"
-    "@types/mkdirp" "1.0.1"
-    "@types/mustache" "4.0.1"
-    "@types/webpack" "4.41.25"
-    chalk "4.1.0"
-    dotenv "8.2.0"
-    joi "17.3.0"
-    mkdirp "1.0.4"
-    mustache "4.0.1"
-    reflect-metadata "^0.1.13"
-    webpack-chain "6.5.1"
-
 "@mdfjs/core@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@mdfjs/core/-/core-0.2.3.tgz#7c6459b03a11522b7cb4dec96398fb1af0340d14"
@@ -1494,10 +1475,10 @@
     reflect-metadata "^0.1.13"
     webpack-chain "6.5.1"
 
-"@mdfjs/react@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@mdfjs/react/-/react-0.1.11.tgz#1102d1139cebb4e5c45be03678d2004635ae3877"
-  integrity sha512-nGJ71yqRpb7Hkyg0xmAqfKgV4RRBjlQU/K/Et8EUED2Q4yL53EtnkQj9cqNLlOmCNytbHoSGKRbtI9k5wDf0qQ==
+"@mdfjs/react@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@mdfjs/react/-/react-0.1.12.tgz#568a8cd5d9065692f0b6b79fbcbf36db951cdc4d"
+  integrity sha512-CHZ4aPzd8xN22eowWd9Vd3UGYpQdVznpv+3eIq8K+rCjAEVgLSj357HMToxclS7N+gWAk6D1mCgpJ/17HISZwQ==
   dependencies:
     "@babel/core" "7.12.3"
     "@babel/plugin-proposal-class-properties" "7.12.1"
@@ -1507,34 +1488,26 @@
     "@babel/preset-react" "7.12.10"
     "@babel/preset-typescript" "7.12.7"
     "@babel/runtime" "7.12.5"
-    "@mdfjs/types" "^0.2.0"
-    "@mdfjs/utils" "^0.2.0"
+    "@mdfjs/types" "^0.2.3"
+    "@mdfjs/utils" "^0.2.3"
+    "@rematch/core" "2.0.1"
+    "@rematch/immer" "2.0.1"
+    "@rematch/loading" "2.0.1"
     babel-loader "8.2.2"
     dva "2.6.0-beta.20"
     dva-immer "0.5.2"
     dva-loading "3.0.22"
     history "4.10.1"
     lodash "4.17.20"
+    react-redux "7.2.3"
     react-router "5.2.0"
     react-router-dom "5.2.0"
     redux-persist "6.0.0"
-
-"@mdfjs/records@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.2.0.tgz#ed26ac494ee52c9068ee9135ccddc76f3a826cc5"
-  integrity sha512-eOBW74ulx4SWBc/LzzV762rRp3QnOqUzO/PltVf89Ra7EYq1pUNvZDweMVlkPasqxkngZ98ZVu+Aan5gmAAD5w==
 
 "@mdfjs/records@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@mdfjs/records/-/records-0.2.3.tgz#ae29a3435e67ce6e03a865cf2bdef1e1b62ad1bf"
   integrity sha512-jloSAPY3Wjxo7ZMPjMa0rfKxYm9tbtebjMpLLrajixtpscy28jDknJEx1wO4uPLwMgjrBHhU2D6OHHAmi1sKLw==
-
-"@mdfjs/runtime@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdfjs/runtime/-/runtime-0.2.0.tgz#9625a78734053cc796c45781f0e73c22ba349911"
-  integrity sha512-/Mzjcmg717YOtbFaPOJgg3Ob2TsbY1TuwgKp7nA2Lqg+N2QojFahW87gdKK2Gbz7umT36z1+uiqgXsyCZcN1Nw==
-  dependencies:
-    "@mdfjs/records" "^0.2.0"
 
 "@mdfjs/runtime@^0.2.3":
   version "0.2.3"
@@ -1557,14 +1530,6 @@
     internal-ip "6.2.0"
     webpack-dev-server "3.11.0"
 
-"@mdfjs/types@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdfjs/types/-/types-0.2.0.tgz#295da82f4a135be089d044fcd98066b54a5d381a"
-  integrity sha512-aErkklcVoIE+H9ypVxOK5n4miq7YcPsylATvAwWxreB/iGFb6ghfDwvRJPyfHquhasJrm4CSaz30JzJPnXIpEg==
-  dependencies:
-    "@mdfjs/core" "^0.2.0"
-    "@mdfjs/records" "^0.2.0"
-
 "@mdfjs/types@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@mdfjs/types/-/types-0.2.3.tgz#b535003c8011a403ce02a0fb2b0658219fc7fed1"
@@ -1572,24 +1537,6 @@
   dependencies:
     "@mdfjs/core" "^0.2.3"
     "@mdfjs/records" "^0.2.3"
-
-"@mdfjs/utils@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@mdfjs/utils/-/utils-0.2.0.tgz#d51428b3d2663d366b64d21719a3f6bee143f1a0"
-  integrity sha512-GHKp9rS2cmdKrKgosYfbLlEOR2rzeK470kPr+Oep2bu1vg/pToGkz6+3wfMcaZ60rqJKENtaUIw3BXBhw+iP2w==
-  dependencies:
-    "@babel/core" "7.12.3"
-    "@babel/preset-env" "7.12.1"
-    "@babel/preset-typescript" "7.12.1"
-    "@babel/register" "7.12.1"
-    "@mdfjs/records" "^0.2.0"
-    babel-plugin-module-resolver "4.0.0"
-    chalk "4.1.0"
-    chokidar "3.4.3"
-    glob "7.1.6"
-    ora "5.3.0"
-    prettier "2.1.2"
-    rimraf "3.0.2"
 
 "@mdfjs/utils@^0.2.3":
   version "0.2.3"
@@ -1743,6 +1690,21 @@
     chalk "^4.1.0"
     consola "^2.15.0"
     node-fetch "^2.6.1"
+
+"@rematch/core@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@rematch/core/-/core-2.0.1.tgz#c69bba9637f41c403c8725834673b12a58a28f31"
+  integrity sha512-EyvgmXzXZnDCIIsmBmOtwzaTQzH+rAlrjcPTiV8Hd/TbFeH5VpCXI/B4myB5aH4P+yQafRkm846HNHMmhkq7kQ==
+
+"@rematch/immer@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@rematch/immer/-/immer-2.0.1.tgz#07f9fee143feea36f8172d7093fe53fe1a254d67"
+  integrity sha512-5Lt2YhCoKPpXb//CqoNh/7kaWENKKhkm015iWcW6I+2wFUUDoiUV8Rm+CzfTxEj+5/V4Uf/eJFPR0nmxaLnbHw==
+
+"@rematch/loading@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@rematch/loading/-/loading-2.0.1.tgz#0e14ccda22097483cdc62cb6f9af2de5d96b5cd2"
+  integrity sha512-UybllPKoEAuSnbfbz8ntXX1VOtUH5BUaRYINfGNHFkhLnjHRS1C2Zz+9W2yvmmY6M5WCJkuH4fIFurDms3rHIQ==
 
 "@rollup/plugin-babel@5.2.1":
   version "5.2.1"
@@ -10223,6 +10185,18 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-redux@7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.3.tgz#4c084618600bb199012687da9e42123cca3f0be9"
+  integrity sha512-ZhAmQ1lrK+Pyi0ZXNMUZuYxYAZd59wFuVDGUt536kSGdD0ya9Q7BfsE95E3TsFLE3kOSFp5m6G5qbatE+Ic1+w==
+  dependencies:
+    "@babel/runtime" "^7.12.1"
+    "@types/react-redux" "^7.1.16"
+    hoist-non-react-statics "^3.3.2"
+    loose-envify "^1.4.0"
+    prop-types "^15.7.2"
+    react-is "^16.13.1"
 
 react-redux@^7.1.0:
   version "7.2.4"

@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { MongoClient } from 'mongodb';
@@ -30,9 +31,11 @@ export type Mock_Rpc = {
 };
 
 export abstract class AppService {
+  @Inject('SharedService')
+  private readonly shared: SharedService;
   type: string;
 
-  constructor(type: string, protected shared: SharedService) {
+  constructor(type: string) {
     this.type = type;
   }
 
