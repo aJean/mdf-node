@@ -73,8 +73,8 @@ export default class ClientRunner {
     });
 
     // dev pipeline
-    const { webpackCompiler, serverOpts } = bundler.setupDev();
-    startDevServer(webpackCompiler, serverOpts).then((res: any) => {
+    const { compiler, opts } = bundler.setupDev();
+    startDevServer(compiler, opts).then((res: any) => {
       this.initWatchers(res.server);
 
       // 必须加个延时，要在 webpack 之后输出
