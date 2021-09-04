@@ -44,7 +44,7 @@ export declare abstract class AppService {
     /**
      * 发送普通 http 请求
      */
-    send(opts: Http_Rpc): Observable<import("axios").AxiosResponse<any>>;
+    send(opts: Http_Rpc): Observable<any>;
     /**
      * @observer 模拟返回 observable
      */

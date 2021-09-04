@@ -1,3 +1,4 @@
+import * as opentracing from 'opentracing';
 import { Inject } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -58,6 +59,10 @@ export abstract class AppService {
    * 生产 rpc 请求 host，可用于调试
    */
   genRpcHost(path: string) {
+    if (/http(s)?/.test(path)) {
+      return path;
+    }
+
     const type = this.type.toUpperCase();
     return `${this.getEnv(`API_HOST_${type}`)}/${path}`;
   }
@@ -66,8 +71,8 @@ export abstract class AppService {
    * 发送 rpc 请求, 熔断、限流都放到这里处理
    */
   rpc(opts: Opts_Rpc): Observable<any> {
-    const http = this.shared.http();
     const { path, method, data, headers } = opts;
+    const http = this.shared.http();
     const host = this.genRpcHost(path);
     const config = genAxiosConfig(headers);
 
@@ -77,7 +82,7 @@ export abstract class AppService {
   /**
    * 发送普通 http 请求
    */
-  send(opts: Http_Rpc) {
+  send(opts: Http_Rpc): Observable<any> {
     const http = this.shared.http();
     const { url, method, data, config } = opts;
 
@@ -132,21 +137,24 @@ export abstract class AppService {
 }
 
 /**
- * 提取 header 中的透传字段 + content-type
+ * 更多 config 配置
  */
-function genAxiosConfig(data = {}, preset: Array<string> = Helper.getCustomHeaders()) {
+function genAxiosConfig(data: any) {
   const headers = {};
 
-  preset.forEach((key: string) => {
+  Helper.getCustomHeaders().forEach((key: string) => {
     const val = data[key];
 
     if (val) {
-      headers[key] = data[key];
+      headers[key] = key == 'user-agent' ? genAgent(val) : val;
     }
   });
 
-  if (data['content-type']) {
-    headers['content-type'] = data['content-type'];
+  // 为 axios request 注入 trace id
+  if (data['__traceSpan__']) {
+    const span = data['__traceSpan__'];
+    span.tracer().inject(span.context(), opentracing.FORMAT_HTTP_HEADERS, headers);
+    delete data['__traceSpan__'];
   }
 
   return { headers };
@@ -162,4 +170,11 @@ function extractExt(file: string) {
   } catch (e) {
     return 'png';
   }
+}
+
+/**
+ * 解析 user-agent 减少传输体积，给后端明确的含义
+ */
+function genAgent(ua: string) {
+  return ua;
 }

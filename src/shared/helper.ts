@@ -32,7 +32,7 @@ export default {
   // 应用模块装载记录
   appModule: { imports: [], providers: [], exports: [], middlewares: [] },
   // 自定义 http headers
-  customHeaders: ['authorization', 'taltoken', 'user-agent', 'clientid'],
+  customHeaders: ['content-type', 'clientid', 'authorization', 'taltoken', 'user-agent'],
 
   /**
    * 注入环境信息，如果使用 tsc 编译需要自己处理 define

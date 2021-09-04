@@ -1,6 +1,5 @@
-import { Injectable, NestMiddleware, HttpService } from '@nestjs/common';
+import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import * as opentracing from 'opentracing';
 import Helper from '../helper';
 
 /**
@@ -11,25 +10,13 @@ const tracer = Helper.getJaegerTracer();
 
 @Injectable()
 export default class GuardMiddleware implements NestMiddleware {
-  span: opentracing.Span | undefined;
-
-  constructor(private httpService: HttpService) {
-    // 为 rpc 注入 span
-    this.httpService.axiosRef.interceptors.request.use((config) => {
-      // controller -> service 是同步调用
-      if (this.span) {
-        const span = this.span;
-        span.tracer().inject(span.context(), opentracing.FORMAT_HTTP_HEADERS, config.headers);
-      }
-
-      return config;
-    });
-  }
-
+  /**
+   * 链路生成 span
+   */
   use(req: Request, res: Response, next: Function) {
-    const span = (this.span = tracer.startSpan(req.baseUrl));
-    req['__traceSpan__'] = span;
-
+    const span = tracer.startSpan(req.baseUrl);
+    // @ts-ignore
+    req['__traceSpan__'] = req.headers['__traceSpan__'] = span;
     span.log({
       time: Date.now(),
       query: req.query,

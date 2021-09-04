@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "father-build",
-    "pub": "yarn publish"
+    "pub": "yarn publish && git push"
   },
   "repository": "https://github.com/aJean/mdf-node.git",
   "publishConfig": {
