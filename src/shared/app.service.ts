@@ -1,3 +1,4 @@
+import parser from 'ua-parser-js';
 import * as opentracing from 'opentracing';
 import { Inject } from '@nestjs/common';
 import { from, Observable } from 'rxjs';
@@ -146,7 +147,11 @@ function genAxiosConfig(data: any) {
     const val = data[key];
 
     if (val) {
-      headers[key] = key == 'user-agent' ? genAgent(val) : val;
+      if (key == 'user-agent') {
+        headers['device'] = genAgent(val);
+      } else {
+        headers[key] = val;
+      }
     }
   });
 
@@ -176,5 +181,6 @@ function extractExt(file: string) {
  * 解析 user-agent 减少传输体积，给后端明确的含义
  */
 function genAgent(ua: string) {
-  return ua;
+  const obj: any = parser(ua);
+  return `os:${obj.os.name} - device:${obj.device.vendor} - browser:${obj.browser.name}`;
 }
