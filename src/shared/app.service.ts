@@ -148,7 +148,7 @@ function genAxiosConfig(data: any) {
 
     if (val) {
       if (key == 'user-agent') {
-        headers['device'] = genAgent(val);
+        headers['app'] = genAgent(val);
       } else {
         headers[key] = val;
       }
@@ -182,5 +182,5 @@ function extractExt(file: string) {
  */
 function genAgent(ua: string) {
   const obj: any = parser(ua);
-  return `os:${obj.os.name} - device:${obj.device.vendor} - browser:${obj.browser.name}`;
+  return `[os: ${obj.os.name}] [device: ${obj.device.model}] [browser: ${obj.browser.name}]`;
 }
