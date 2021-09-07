@@ -140,7 +140,7 @@ export abstract class AppService {
 /**
  * 更多 config 配置
  */
-function genAxiosConfig(data: any) {
+function genAxiosConfig(data: any = {}) {
   const headers = {};
 
   Helper.getCustomHeaders().forEach((key: string) => {
