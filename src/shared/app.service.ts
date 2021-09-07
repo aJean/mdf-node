@@ -182,5 +182,15 @@ function extractExt(file: string) {
  */
 function genAgent(ua: string) {
   const obj: any = parser(ua);
-  return `[os: ${obj.os.name}] [device: ${obj.device.model}] [browser: ${obj.browser.name}]`;
+  const os = obj.os.name;
+  const device = obj.device.model;
+  const browser = obj.browser.name;
+
+  let info = `[os: ${os}] [device: ${device}] [browser: ${browser}]`;
+
+  if (!os || !device || !browser) {
+    info += ` [ua: ${obj.ua}]`;
+  }
+
+  return info;
 }
