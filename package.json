@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/node",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "description": "mdf 混合项目工程模块",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "father-build",
-    "pub": "yarn publish && git push"
+    "pub": "standard-version && yarn publish && git push"
   },
   "repository": "https://github.com/aJean/mdf-node.git",
   "publishConfig": {
@@ -20,11 +20,11 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.15.0",
-    "@mdfjs/bundler-webpack": "^0.2.11",
+    "@mdfjs/bundler-webpack": "^0.2.12",
     "@mdfjs/react": "^0.1.12",
-    "@mdfjs/server": "^0.2.11",
-    "@mdfjs/types": "^0.2.11",
-    "@mdfjs/utils": "^0.2.11",
+    "@mdfjs/server": "^0.2.12",
+    "@mdfjs/types": "^0.2.12",
+    "@mdfjs/utils": "^0.2.12",
     "@nestjs/common": "7.6.17",
     "@nestjs/config": "0.6.3",
     "@nestjs/core": "7.6.17",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/jaeger-client": "^3.18.1",
     "@types/mongodb": "^3.6.19",
-    "father-build": "1.19.1"
+    "father-build": "1.19.1",
+    "standard-version": "^9.3.1"
   }
 }
