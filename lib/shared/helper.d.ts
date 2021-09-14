@@ -1,4 +1,3 @@
-import jaeger from 'jaeger-client';
 import { Request, Response } from 'express';
 /**
  * @file 共享包 helper
@@ -55,9 +54,9 @@ declare const _default: {
      */
     getJaegerEndpoint(): "http://tracing-analysis-dc-bj-internal.aliyuncs.com/adapt_f6vr9nkq0m@2c4af383d17198e_f6vr9nkq0m@53df7ad2afe8301/api/traces" | "http://tracing-analysis-dc-bj.aliyuncs.com/adapt_f6vr9nkq0m@2c4af383d17198e_f6vr9nkq0m@53df7ad2afe8301_test/api/traces";
     /**
-     * 初始化 tracer
+     * @Singleton 初始化 tracer
      */
-    getJaegerTracer(): jaeger.JaegerTracer;
+    getJaegerTracer(): any;
     /**
      * 要使用 redis 请先安装 ioredis
      */

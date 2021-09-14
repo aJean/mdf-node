@@ -88,21 +88,27 @@ export default {
   },
 
   /**
-   * 初始化 tracer
+   * @Singleton 初始化 tracer
    */
   getJaegerTracer() {
-    return jaeger.initTracer(
-      {
-        serviceName: '101-bff',
-        sampler: { type: 'const', param: 1 },
-        reporter: { collectorEndpoint: this.getJaegerEndpoint() },
-      },
-      {
-        tags: {
-          '101-bff.version': getUserPkg(process.cwd(), 'version') || '0.0.0',
+    const stack = this.getJaegerTracer;
+
+    if (stack.tracer) {
+      return stack.tracer;
+    } else {
+      return (stack.tracer = jaeger.initTracer(
+        {
+          serviceName: '101-bff',
+          sampler: { type: 'const', param: 1 },
+          reporter: { collectorEndpoint: this.getJaegerEndpoint() },
         },
-      },
-    );
+        {
+          tags: {
+            '101-bff.version': getUserPkg(process.cwd(), 'version') || '0.0.0',
+          },
+        },
+      ));
+    }
   },
 
   /**
