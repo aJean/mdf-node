@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "father-build",
-    "pub": "standard-version && yarn publish && git push"
+    "pub": "release-it"
   },
   "repository": "https://github.com/aJean/mdf-node.git",
   "publishConfig": {
@@ -20,11 +20,11 @@
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.15.0",
-    "@mdfjs/bundler-webpack": "^0.2.12",
+    "@mdfjs/bundler-webpack": "^0.2.13",
     "@mdfjs/react": "^0.1.12",
-    "@mdfjs/server": "^0.2.12",
-    "@mdfjs/types": "^0.2.12",
-    "@mdfjs/utils": "^0.2.12",
+    "@mdfjs/server": "^0.2.13",
+    "@mdfjs/types": "^0.2.13",
+    "@mdfjs/utils": "^0.2.13",
     "@nestjs/common": "7.6.17",
     "@nestjs/config": "0.6.3",
     "@nestjs/core": "7.6.17",
@@ -56,6 +56,6 @@
     "@types/jaeger-client": "^3.18.1",
     "@types/mongodb": "^3.6.19",
     "father-build": "1.19.1",
-    "standard-version": "^9.3.1"
+    "release-it": "^14.11.5"
   }
 }
