@@ -13,9 +13,6 @@
     "pub": "release-it"
   },
   "repository": "https://github.com/aJean/mdf-node.git",
-  "publishConfig": {
-    "access": "public"
-  },
   "author": "qy",
   "license": "MIT",
   "dependencies": {
@@ -57,5 +54,9 @@
     "@types/mongodb": "^3.6.19",
     "father-build": "1.19.1",
     "release-it": "^14.11.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
