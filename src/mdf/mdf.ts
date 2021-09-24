@@ -25,5 +25,7 @@ export default function (api: IApi) {
 }
 
 function genOutputs(port: string) {
-  return [{ msg: `\\napp-server is runing at localhost:${port}` }];
+  return [
+    { msg: `\\nnode-server is runing at localhost(${require('internal-ip').v4.sync()}):${port}` },
+  ];
 }

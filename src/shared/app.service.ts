@@ -1,3 +1,4 @@
+import { chalkPrints } from '@mdfjs/utils';
 import parser from 'ua-parser-js';
 import * as opentracing from 'opentracing';
 import { Inject } from '@nestjs/common';
@@ -73,6 +74,12 @@ export abstract class AppService {
    */
   rpc(opts: Opts_Rpc): Observable<any> {
     const { path, method, data, headers } = opts;
+
+    if (headers.debug) {
+      chalkPrints([[`[debug]`, 'grey'], ` ${method} - ${this.genRpcHost(path)}`]);
+      delete headers.debug;
+    }
+
     const http = this.shared.http();
     const host = this.genRpcHost(path);
     const config = genAxiosConfig(headers);
@@ -190,6 +197,12 @@ function genAgent(ua: string) {
 
   if (!os || !device || !browser) {
     info += ` [ua: ${obj.ua}]`;
+  }
+
+  // 检查 app 版本
+  const app = /DSApp_(.*)/.exec(ua);
+  if (app) {
+    info += ` [app: ${app[1]}]`;
   }
 
   return info;

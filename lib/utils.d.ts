@@ -17,3 +17,7 @@ export declare function genTscPaths(api: any): ITscPaths;
  * 安全获取对象属性，找不到就返回 undefined
  */
 export declare function safeGetProperty(path: any, target: any): any;
+/**
+ * 清除控制台
+ */
+export declare function cleanConsole(): void;

@@ -7,7 +7,7 @@ import { Winston, WinstonModule, utilities } from '@mdfjs/node';
 import AppModule from '../{{{ appFile }}}';
 
 /**
- * @file 框架生产，禁止修改
+ * @file 框架生成, 禁止修改
  */
 
 Helper.setProcessEnv(process.env.MDF_ENV!);

@@ -3,7 +3,7 @@ import { watch, globFind, chalkPrints, rmrf } from '@mdfjs/utils';
 import { spawn } from 'child_process';
 import killProcess from 'tree-kill';
 import ts from 'typescript';
-import { ITscPaths, genTscPaths } from '../utils';
+import { ITscPaths, genTscPaths, cleanConsole } from '../utils';
 
 /**
  * @file mdf-node tsc runner
@@ -30,6 +30,7 @@ export default class NodeRunner {
     const files = globFind(entry);
     // 删除上次的结果
     rmrf(devDir);
+    cleanConsole()
 
     // 覆盖 tsconfig 里面的参数
     const compilerOptions = {
@@ -80,10 +81,14 @@ export default class NodeRunner {
     };
   }
 
+  /**
+   * tsc watch 进程管理
+   */
   createOnSuccessHook() {
     const that = this;
     let childProcessRef: any;
 
+    // 当前进程结束要清除紫金城
     process.on('exit', () => childProcessRef && killProcess(childProcessRef.pid));
 
     return function () {

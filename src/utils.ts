@@ -56,3 +56,10 @@ export function safeGetProperty(path, target) {
 
   return result;
 }
+
+/**
+ * 清除控制台
+ */
+export function cleanConsole() {
+  process.stdout.write('\x1B[2J\x1B[3J\x1B[H')
+}
