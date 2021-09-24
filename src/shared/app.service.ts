@@ -75,7 +75,7 @@ export abstract class AppService {
   rpc(opts: Opts_Rpc): Observable<any> {
     const { path, method, data, headers } = opts;
 
-    if (headers.debug) {
+    if (headers?.debug) {
       chalkPrints([[`[debug]`, 'grey'], ` ${method} - ${this.genRpcHost(path)}`]);
       delete headers.debug;
     }
