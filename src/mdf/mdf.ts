@@ -24,8 +24,16 @@ export default function (api: IApi) {
   api.writeFile(`${paths.absTmpPath}/mdf-nest.ts`, prettierFormat(content));
 }
 
+/**
+ * chalkOutputs from @mdfjs/utils
+ */
 function genOutputs(port: string) {
+  const chalk = require('chalk');
   return [
-    { msg: `\\nnode-server is runing at localhost(${require('internal-ip').v4.sync()}):${port}` },
+    {
+      msg: `\\n${chalk.yellow(
+        '[mdf-node]',
+      )} server is runing at localhost(${require('internal-ip').v4.sync()}):${port}`,
+    },
   ];
 }
