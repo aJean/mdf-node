@@ -1,6 +1,6 @@
 {
   "name": "@mdfjs/node",
-  "version": "0.1.21",
+  "version": "0.2.0",
   "description": "mdf 混合项目工程模块",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
