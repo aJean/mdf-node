@@ -6,6 +6,7 @@ import {
   Logger,
   LoggerService,
   ServiceUnavailableException,
+  NotFoundException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import Helper from '../helper';
@@ -62,11 +63,32 @@ export default class ErrorFilter extends BaseExceptionFilter {
       request['__traceSpan__'] = null;
 
       // 输出 traceId，格式还是需要规范避免影响 log store
-      return this.logger.error(
-        `${method} ${url} ${tid} ${tokens} ${JSON.stringify(body)} ${error.stack}`,
-      );
+      this.print(`${method} ${url} ${tid} ${tokens} ${JSON.stringify(body)}`, error);
+    } else {
+      this.print(`${method} ${url} ${tokens} ${JSON.stringify(body)}`, error);
     }
+  }
 
-    this.logger.error(`${method} ${url} ${tokens} ${JSON.stringify(body)} ${error.stack}`);
+  /**
+   * 分析日志类型
+   */
+  print(meta: string, err: any) {
+    const res = err.response;
+
+    // axios error 一般都是 rpc error
+    if (err.isAxiosError) {
+      const config = res.config;
+      const trace = `From: ${meta} \nTo: ${config.method.toUpperCase()} ${config.url.trim()} ${JSON.stringify(
+        config.data,
+      )}`;
+
+      this.logger.error(err.message, trace, 'ErrorFilter');
+    } else if (err instanceof NotFoundException) {
+      // 访问不存在的接口，输出 warning 就可以了
+      this.logger.warn(err.message, 'ErrorFilter');
+    } else {
+      // 代码异常
+      this.logger.error(err.message, err.stack, 'ErrorFilter');
+    }
   }
 }

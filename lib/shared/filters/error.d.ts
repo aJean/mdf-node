@@ -14,4 +14,8 @@ export default class ErrorFilter extends BaseExceptionFilter {
      * 输出异常日志
      */
     pipeLog(request: any, error: Error): void;
+    /**
+     * 分析日志类型
+     */
+    print(meta: string, err: any): void;
 }
