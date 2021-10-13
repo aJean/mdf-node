@@ -36,20 +36,30 @@ export default class ErrorFilter extends BaseExceptionFilter {
   }
 
   /**
-   * http 异常
+   * 异常返回
+   */
+  handleError(err: any, req: any, res: any) {
+    res.send({
+      code: err.response ? err.response.status : 500,
+      msg: err.message,
+      from: 'mdf-node',
+    });
+  }
+
+  /**
+   * 异常捕获
    */
   catch(err: any, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
-    const { handleHttpError } = Helper.getAppModule();
+    const { handleHttpError = this.handleError } = Helper.getAppModule();
 
-    handleHttpError
-      ? handleHttpError(err, ctx.getRequest(), ctx.getResponse())
-      : super.catch(err, host);
+    handleHttpError(err, ctx.getRequest(), ctx.getResponse());
+    // super.catch(err, host)
     this.pipeLog(ctx.getRequest(), err);
   }
 
   /**
-   * 输出异常日志
+   * 异常日志
    */
   pipeLog(request: any, error: Error): void {
     const { url, headers, method, body } = request;

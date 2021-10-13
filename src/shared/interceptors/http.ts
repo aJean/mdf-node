@@ -80,6 +80,6 @@ export default class HttpInterceptor implements NestInterceptor {
     const { url, headers, method, body } = req;
     const tokens = Helper.getLogTokens(headers);
 
-    this.logger.log(` ${method} ${url} ${tokens} ${JSON.stringify(body)}`);
+    this.logger.log(` ${method} ${url} ${tokens} ${JSON.stringify(body)}`, 'HttpInterceptor');
   }
 }
