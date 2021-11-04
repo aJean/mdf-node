@@ -15,22 +15,32 @@ export default function (api: IApi) {
   api.registerCommand({
     name: 'dev',
     async fn(args) {
-      let runner;
-
       rmrf(api.paths.absTmpPath);
       // 启动 server 部分
-      if (args.node) {
-        createNestEntry(api);
-        runner = new TscRunner({
-          api,
-          tsconfigPath: require.resolve('../tsconfig.json'),
-        });
+      createNestEntry(api);
+      const runner = new TscRunner({ api, tsconfigPath: require.resolve('../tsconfig.json') });
 
-        runner.run();
-      } else {
-        runner = new ClientRunner({ api });
-        await runner.run();
-      }
+      runner.run();
     },
   });
+}
+
+/**
+ * 多模启动
+ */
+async function multiPipe(api: IApi, args: any) {
+  let runner;
+
+  if (args.node) {
+    createNestEntry(api);
+    runner = new TscRunner({
+      api,
+      tsconfigPath: require.resolve('../tsconfig.json'),
+    });
+
+    runner.run();
+  } else {
+    runner = new ClientRunner({ api });
+    await runner.run();
+  }
 }

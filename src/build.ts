@@ -12,31 +12,40 @@ export default function (api: IApi) {
   api.registerCommand({
     name: 'build',
     async fn() {
-      const { project } = api.getConfig();
       // @todo 与 webpack process 冲突
       const spinner = new Spinner({ text: 'start to build' }).info();
-
       // 清空 dist
       rmrf('dist');
       // 创建 node 入口
       createNestEntry(api);
 
-      switch (project.type) {
-        // 混合项目需要先构建 client
-        case 'hybrid':
-          await ClientBuilder(api);
-          spinner.start({ text: 'build node files' });
-          api.invokePlugin({ key: 'processDone', type: api.PluginType.flush });
-
-          await RollupBuilder(api);
-          spinner.succeed({ text: 'build success' });
-          break;
-        default:
-          await RollupBuilder(api);
-          spinner.succeed({ text: 'build success' });
-      }
+      await RollupBuilder(api);
+      spinner.succeed({ text: 'build success' });
 
       process.exit(0);
     },
   });
+}
+
+/**
+ * 多模构建
+ */
+async function multiPipe(api: IApi, type: string) {
+  const { project } = api.getConfig();
+  const spinner = new Spinner({ text: 'start to build' }).info();
+
+  switch (project.type) {
+    // 混合项目需要先构建 client
+    case 'hybrid':
+      await ClientBuilder(api);
+      spinner.start({ text: 'build node files' });
+      api.invokePlugin({ key: 'processDone', type: api.PluginType.flush });
+
+      await RollupBuilder(api);
+      spinner.succeed({ text: 'build success' });
+      break;
+    default:
+      await RollupBuilder(api);
+      spinner.succeed({ text: 'build success' });
+  }
 }

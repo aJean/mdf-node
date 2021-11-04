@@ -6,10 +6,9 @@ import 'winston-daily-rotate-file';
  * @file mdf-node 插件集
  */
 
-// require('update-notifier');
 export default function (api: IApi) {
   const presets = [
-    require.resolve('@mdfjs/react'),
+    // require.resolve('@mdfjs/react'), whill remove client render from mdf-node
     require.resolve('./dev'),
     require.resolve('./build'),
   ];

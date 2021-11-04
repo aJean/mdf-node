@@ -11,6 +11,10 @@ export default class ErrorFilter extends BaseExceptionFilter {
      */
     handleError(err: any, req: any, res: any): void;
     /**
+     * code 状态码
+     */
+    genStatus(data: any): any;
+    /**
      * 异常捕获
      */
     catch(err: any, host: ArgumentsHost): void;

@@ -13,5 +13,5 @@ export default class HttpInterceptor implements NestInterceptor {
     /**
      * 请求日志
      */
-    pipeLog(req: Request): void;
+    pipeLog(req: Request, stauts: number): void;
 }

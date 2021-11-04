@@ -32,7 +32,7 @@ export default class HttpInterceptor implements NestInterceptor {
         const res = ctx.getResponse();
         const data = result.data;
         
-        this.pipeLog(ctx.getRequest());
+        this.pipeLog(ctx.getRequest(), res.statusCode);
         switch (result._type) {
           // 模板渲染
           case 'hbs':
@@ -76,10 +76,10 @@ export default class HttpInterceptor implements NestInterceptor {
   /**
    * 请求日志
    */
-  pipeLog(req: Request): void {
+  pipeLog(req: Request, stauts: number): void {
     const { url, headers, method, body } = req;
     const tokens = Helper.getLogTokens(headers);
 
-    this.logger.log(` ${method} ${url} ${tokens} ${JSON.stringify(body)}`, 'HttpInterceptor');
+    this.logger.log(` ${stauts} ${method} ${url} ${tokens} ${JSON.stringify(body)}`, 'HttpInterceptor');
   }
 }

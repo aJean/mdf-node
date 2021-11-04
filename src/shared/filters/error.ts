@@ -40,10 +40,17 @@ export default class ErrorFilter extends BaseExceptionFilter {
    */
   handleError(err: any, req: any, res: any) {
     res.send({
-      code: err.response ? err.response.status : 500,
+      code: this.genStatus(err.response),
       msg: err.message,
       from: 'mdf-node',
     });
+  }
+
+  /**
+   * code 状态码
+   */
+  genStatus(data: any) {
+    return data ? data.statusCode : 500;
   }
 
   /**
@@ -84,6 +91,7 @@ export default class ErrorFilter extends BaseExceptionFilter {
    */
   print(meta: string, err: any) {
     const res = err.response;
+    const msg = `${this.genStatus(res)} ${err.message}`;
 
     // axios error 一般都是 rpc error
     if (err.isAxiosError) {
@@ -92,13 +100,13 @@ export default class ErrorFilter extends BaseExceptionFilter {
         config.data,
       )}`;
 
-      this.logger.error(err.message, trace, 'ErrorFilter');
+      this.logger.error(msg, trace, 'ErrorFilter');
     } else if (err instanceof NotFoundException) {
       // 访问不存在的接口，输出 warning 就可以了
-      this.logger.warn(err.message, 'ErrorFilter');
+      this.logger.warn(msg, 'ErrorFilter');
     } else {
       // 代码异常
-      this.logger.error(err.message, err.stack, 'ErrorFilter');
+      this.logger.error(msg, err.stack, 'ErrorFilter');
     }
   }
 }
