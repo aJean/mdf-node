@@ -31,20 +31,21 @@ export default class HttpInterceptor implements NestInterceptor {
         const req = ctx.getRequest();
         const res = ctx.getResponse();
         const data = result.data;
-        
-        this.pipeLog(ctx.getRequest(), res.statusCode);
+        const code = res.statusCode;
+
         switch (result._type) {
           // 模板渲染
           case 'hbs':
             return result;
           // promethus http exporter
           case 'prom':
-            res.set({'Content-Type': 'text/plain'});
+            res.set({ 'Content-Type': 'text/plain' });
             return result.data;
           // 静态资源 cors 中转
           case 'pic':
             // 图片下载失败
             if (!(data instanceof Buffer)) {
+              this.pipeLog(ctx.getRequest(), `${code}/500`);
               return res.end(null);
             }
 
@@ -57,9 +58,11 @@ export default class HttpInterceptor implements NestInterceptor {
               'Content-Length': data.length,
             });
 
+            this.pipeLog(ctx.getRequest(), `${code}/200`);
             return stream.pipe(res);
           // 标准 mdf server 接口
           default:
+            this.pipeLog(ctx.getRequest(), `${code}/${data.code}`);
             res.set({ 'Content-Type': 'application/json' });
 
             if (req['__traceSpan__']) {
@@ -76,10 +79,13 @@ export default class HttpInterceptor implements NestInterceptor {
   /**
    * 请求日志
    */
-  pipeLog(req: Request, stauts: number): void {
+  pipeLog(req: Request, stauts: string): void {
     const { url, headers, method, body } = req;
     const tokens = Helper.getLogTokens(headers);
 
-    this.logger.log(` ${stauts} ${method} ${url} ${tokens} ${JSON.stringify(body)}`, 'HttpInterceptor');
+    this.logger.log(
+      ` [${stauts}] ${method} ${url} ${tokens} ${JSON.stringify(body)}`,
+      'HttpInterceptor',
+    );
   }
 }

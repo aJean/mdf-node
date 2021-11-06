@@ -58,7 +58,7 @@ export default class ErrorFilter extends BaseExceptionFilter {
    */
   catch(err: any, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
-    const { handleHttpError = this.handleError } = Helper.getAppModule();
+    const { handleHttpError = this.handleError.bind(this) } = Helper.getAppModule();
 
     handleHttpError(err, ctx.getRequest(), ctx.getResponse());
     // super.catch(err, host)
@@ -91,7 +91,7 @@ export default class ErrorFilter extends BaseExceptionFilter {
    */
   print(meta: string, err: any) {
     const res = err.response;
-    const msg = `${this.genStatus(res)} ${err.message}`;
+    const msg = `[200/${this.genStatus(res)}] ${err.message}`;
 
     // axios error 一般都是 rpc error
     if (err.isAxiosError) {
