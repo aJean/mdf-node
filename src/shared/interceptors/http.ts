@@ -63,7 +63,10 @@ export default class HttpInterceptor implements NestInterceptor {
           // 标准 mdf server 接口
           default:
             this.pipeLog(ctx.getRequest(), `${code}/${data.code}`);
-            res.set({ 'Content-Type': 'application/json' });
+            res.set({
+              'Content-Type': 'application/json',
+              'Cache-Control': 'no-store',
+            });
 
             if (req['__traceSpan__']) {
               req['__traceSpan__'].finish();
