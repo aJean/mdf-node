@@ -73,7 +73,7 @@ const opts: any = { cors: true };
         }),
       ]
     });
-  } catch(e) {
+  } catch(e: any) {
     // 日志目录初始化异常
     Logger.error(e.message);
   }
