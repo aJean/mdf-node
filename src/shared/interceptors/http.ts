@@ -45,7 +45,7 @@ export default class HttpInterceptor implements NestInterceptor {
           case 'pic':
             // 图片下载失败
             if (!(data instanceof Buffer)) {
-              this.pipeLog(ctx.getRequest(), `${code}/500`);
+              this.pipeLog(req, `${code}/500`);
               return res.end(null);
             }
 
@@ -62,7 +62,10 @@ export default class HttpInterceptor implements NestInterceptor {
             return stream.pipe(res);
           // 标准 mdf server 接口
           default:
-            this.pipeLog(ctx.getRequest(), `${code}/${data.code}`);
+            const { handleLog } = Helper.getAppModule();
+            handleLog && handleLog(req, res);
+
+            this.pipeLog(req, `${code}/${data.code}`);
             res.set({
               'Content-Type': 'application/json',
               'Cache-Control': 'no-store',
