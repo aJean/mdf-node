@@ -55,7 +55,10 @@
     "release-it": "^14.11.5"
   },
   "release-it": {
-    "github": {
+    "npm": {
+      "publish": true
+    },
+    "git": {
       "tag": false,
       "release": false,
       "push": true
