@@ -63,7 +63,7 @@ export default class HttpInterceptor implements NestInterceptor {
           // 标准 mdf server 接口
           default:
             const { handleLog } = Helper.getAppModule();
-            handleLog && handleLog(result, req, res);
+            handleLog && handleLog(data, req, res);
 
             this.pipeLog(req, `${code}/${data.code}`);
             res.set({

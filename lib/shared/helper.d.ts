@@ -11,7 +11,7 @@ declare type AppModuleType = {
     providers?: any[];
     exports?: any[];
     middlewares?: Middlewares[];
-    handleLog?: (result: any, req: Request, res: Response) => void;
+    handleLog?: (data: any, req: Request, res: Response) => void;
     handleHttpError?: (err: Error, req: Request, res: Response) => void;
     handleException?: (err: Error) => boolean;
 };
