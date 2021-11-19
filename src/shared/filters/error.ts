@@ -50,7 +50,8 @@ export default class ErrorFilter extends BaseExceptionFilter {
    * code 状态码
    */
   genStatus(data: any) {
-    return data ? data.statusCode : 500;
+    const code = data && data.statusCode;
+    return code || 500;
   }
 
   /**
@@ -90,7 +91,8 @@ export default class ErrorFilter extends BaseExceptionFilter {
    * 分析日志类型
    */
   print(meta: string, err: any) {
-    const res = err.response;
+    // TODO: 需要兼容返回值
+    const res = err.response || err;
     const msg = `[200/${this.genStatus(res)}] ${err.message}`;
 
     // axios error 一般都是 rpc error
