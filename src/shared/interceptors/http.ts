@@ -28,6 +28,11 @@ export default class HttpInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((result) => {
+        // non-standard service
+        if (!result) {
+          return;
+        }
+
         const req = ctx.getRequest();
         const res = ctx.getResponse();
         const data = result.data;
