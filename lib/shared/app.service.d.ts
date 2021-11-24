@@ -38,7 +38,7 @@ export declare abstract class AppService {
      */
     genRpcHost(path: string): string;
     /**
-     * 发送 rpc 请求, 熔断、限流都放到这里处理
+     * 发送 rpc 请求, 熔断、限流、主路复制都放到这里处理
      */
     rpc(opts: Opts_Rpc): Observable<any>;
     /**

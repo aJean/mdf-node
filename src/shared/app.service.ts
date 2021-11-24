@@ -70,7 +70,7 @@ export abstract class AppService {
   }
 
   /**
-   * 发送 rpc 请求, 熔断、限流都放到这里处理
+   * 发送 rpc 请求, 熔断、限流、主路复制都放到这里处理
    */
   rpc(opts: Opts_Rpc): Observable<any> {
     const { path, method, data, headers } = opts;
@@ -84,7 +84,15 @@ export abstract class AppService {
     const host = this.genRpcHost(path);
     const config = genAxiosConfig(headers);
 
-    return method === 'POST' ? http.post(host, data, config) : http.get(host, config);
+    switch (method) {
+      case 'POST':
+        return http.post(host, data, config);
+      default:
+        const qs = require('querystring');
+        const params = qs.stringify(data);
+
+        return http.get(params ? `${host}?${params}` : host, config);
+    }
   }
 
   /**
