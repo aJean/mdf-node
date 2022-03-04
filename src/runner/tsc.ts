@@ -88,7 +88,7 @@ export default class NodeRunner {
     const that = this;
     let childProcessRef: any;
 
-    // 当前进程结束要清除紫金城
+    // 当前进程结束要清除子进程
     process.on('exit', () => childProcessRef && killProcess(childProcessRef.pid));
 
     return function () {
